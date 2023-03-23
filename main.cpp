@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include <cstring>
+#include <conio.h>
 
 using namespace std;
 
@@ -8,7 +9,9 @@ class account
 {
 private:
     string name = "null";
-    int pin, balance = 0, withdraw, deposit;
+    int balance = 0, withdraw, deposit;
+    string pin = "";
+    char ch;
 
 public:
     void CreateAccount()
@@ -31,10 +34,24 @@ public:
             getline(cin, name);
 
             cout << "\nSet a Pin :- ";
-            cin >> pin;
-            cin.ignore();
+            while ((ch = getch()) != '\r')
+            {
+                if (ch == '\b')
+                {
+                    if (pin.length() > 0)
+                    {
+                        pin.pop_back();
+                        cout << "\b \b";
+                    }
+                }
+                else
+                {
+                    pin.push_back(ch);
+                    cout << "*";
+                }
+            }
 
-            cout << "\n***** Account has been created succesfully *****" << endl;
+            cout << "\n\n***** Account has been created succesfully *****" << endl;
             cout << "\n-----------------------" << endl;
             system("pause");
         }
@@ -44,17 +61,47 @@ public:
     {
         if (name != "null")
         {
-            int extpin;
+            string extpin = "";
             system("cls");
             cout << "-----------------------" << endl;
             cout << "\nEnter your existing pin :- ";
+            while ((ch = getch()) != '\r')
+            {
+                if (ch == '\b')
+                {
+                    if (extpin.length() > 0)
+                    {
+                        extpin.pop_back();
+                        cout << "\b \b";
+                    }
+                }
+                else
+                {
+                    extpin.push_back(ch);
+                    cout << "*";
+                }
+            }
 
-            cin >> extpin;
-            cin.ignore();
             if (extpin == pin)
             {
                 cout << "\nEnter New Pin :- ";
-                cin >> pin;
+                pin = "";
+                while ((ch = getch()) != '\r')
+                {
+                    if (ch == '\b')
+                    {
+                        if (pin.length() > 0)
+                        {
+                            pin.pop_back();
+                            cout << "\b \b";
+                        }
+                    }
+                    else
+                    {
+                        pin.push_back(ch);
+                        cout << "*";
+                    }
+                }
 
                 cout << "\n***** Pin Changed succesfully *****" << endl;
                 cout << "\n-----------------------" << endl;
@@ -127,7 +174,7 @@ public:
 
     void WithdrawMoney()
     {
-        int extpin;
+        string extpin = "";
 
         if (name == "null")
         {
@@ -143,7 +190,22 @@ public:
             system("cls");
             cout << "-----------------------" << endl;
             cout << "\n Enter your pin :- ";
-            cin >> extpin;
+            while ((ch = getch()) != '\r')
+            {
+                if (ch == '\b')
+                {
+                    if (extpin.length() > 0)
+                    {
+                        extpin.pop_back();
+                        cout << "\b \b";
+                    }
+                }
+                else
+                {
+                    extpin.push_back(ch);
+                    cout << "*";
+                }
+            }
             cout << "\n-----------------------" << endl;
 
             if (name != "null" && extpin == pin)
