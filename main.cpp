@@ -561,7 +561,7 @@ int main()
         cout << "\n-----------------------" << endl;
         cout << "\nChoose option by pressing option number eg.1,2,3.." << endl;
 
-        cout << "1.Open new a Savings Account" << endl;
+        cout << "\n1.Open new a Savings Account" << endl;
         cout << "2.Open a Existing Savings Account" << endl;
         cout << "3.Forgot Pin of your Savings Account" << endl;
         cout << "4.Change Pin of your Savings Account" << endl;
@@ -571,7 +571,7 @@ int main()
         cout << "8.Logout & Exit" << endl;
         cout << "\n-----------------------" << endl;
 
-        cout << "\n>>";
+        cout << "\n>> ";
         cin >> u;
         cin.ignore();
 
