@@ -11,7 +11,7 @@ class account
 private:
     string name = "null";
     int balance = 0, withdraw, deposit;
-    string pin = "";
+    string pin = "", fpin = "";
     char ch;
 
 public:
@@ -80,8 +80,11 @@ public:
                     }
                 }
 
+                cout << "\n\nSet Forgot Pin Question \nName of your First School ? :- ";
+                getline(cin, fpin);
+
                 ofstream outfile("data.txt", ios::app);
-                outfile << name << "%" << pin << "*" << balance << endl;
+                outfile << name << "%" << pin << "*" << balance << "$" << fpin << endl;
                 outfile.close();
 
                 cout << "\n\n***** Account has been created succesfully *****" << endl;
@@ -114,10 +117,6 @@ public:
             cout << "\nEnter your full name :- ";
             getline(cin, name);
 
-            cout << "\nEnter your Account pin :- ";
-            string temppin;
-            getline(cin, temppin);
-
             file.seekg(0, ios::beg);
 
             while (getline(file, line))
@@ -148,15 +147,17 @@ public:
 
             if (found && balancefound)
             {
+                cout << "\nEnter your Account pin :- ";
+                string temppin;
+                getline(cin, temppin);
                 pin = line.substr(line.find("%") + 1, line.find("*") - line.find("%") - 1);
+
                 if (temppin == pin)
                 {
-                    pin = line.substr(line.find("%") + 1, line.find("*") - line.find("%") - 1);
                     string tempbalance;
-                    tempbalance = line.substr(line.find("*") + 1);
-
+                    tempbalance = line.substr(line.find("*") + 1, line.find("$") - line.find("*") - 1);
                     balance = stoi(tempbalance);
-
+                    fpin = line.substr(line.find("$") + 1);
                     cout << "\nWelcome " << name << "!" << endl;
                     file.close();
                     cout << "\n-----------------------" << endl;
@@ -174,6 +175,106 @@ public:
                 }
             }
             else if (!found || !balancefound)
+            {
+                name = "null";
+                cout << "\nAccount does not exist under this name" << endl;
+                file.close();
+                cout << "\n-----------------------" << endl;
+                system("pause");
+            }
+        }
+        else if (name != "null")
+        {
+            system("cls");
+            cout << "-----------------------" << endl;
+            cout << "\nAlready An Account is Opened" << endl;
+            cout << "\n-----------------------" << endl;
+            system("pause");
+        }
+    }
+
+    void ForgotPin()
+    {
+        if (name == "null")
+        {
+            system("cls");
+            string line;
+            ifstream file("data.txt");
+            bool found = false;
+            cout << "-----------------------" << endl;
+            cout << "\nEnter your Full Name :- ";
+            getline(cin, name);
+
+            file.seekg(0, ios::beg);
+
+            while (getline(file, line))
+            {
+
+                string file_name = line.substr(0, line.find("%"));
+
+                if (name == file_name)
+                {
+                    found = true;
+                    break;
+                }
+            }
+
+            if (found)
+            {
+                cout << "\nGive Answer to your forgot pin question \nName of your First School ? :- ";
+                string tempfpin;
+                getline(cin, tempfpin);
+
+                fpin = line.substr(line.find("$") + 1);
+
+                if (tempfpin == fpin)
+                {
+                    cout << "\nWelcome " << name << "!" << endl;
+
+                    cout << "\nEnter Your New Pin :- ";
+                    getline(cin, pin);
+
+                    file.seekg(0, ios::beg);
+                    ofstream outfile("temp.txt");
+                    while (getline(file, line))
+                    {
+                        if (name == line.substr(0, line.find("%")))
+                        {
+                            outfile << name << "%" << pin << "*" << balance << "$" << fpin << endl;
+                        }
+                        else
+                        {
+                            outfile << line << endl;
+                        }
+                    }
+
+                    file.close();
+                    outfile.close();
+
+                    // delete the original file and rename the temp file
+                    remove("data.txt");
+                    rename("temp.txt", "data.txt");
+
+                    name = "null";
+                    fpin = "";
+
+                    cout << "\n ***** PIN Changed Succesfully *****" << endl;
+                    cout << "\n Now try login into your existing account using new pin" << endl;
+                    cout << "\n-----------------------" << endl;
+                    system("pause");
+                }
+                else
+                {
+                    fpin = "";
+                    name = "null";
+                    system("cls");
+                    cout << "-----------------------" << endl;
+                    cout << "\nYour Answer is Incorrect" << endl;
+                    cout << "\n-----------------------" << endl;
+                    system("pause");
+                }
+            }
+            else if (!found)
             {
                 name = "null";
                 cout << "\nAccount does not exist under this name" << endl;
@@ -241,27 +342,12 @@ public:
                     }
                 }
 
-                // ofstream outfile("temp.txt");
-                // outfile << line.substr(0, line.find("%")) << "%" << pin << endl;
-
-                // while (getline(file, line))
-                // {
-                //     if (name == line.substr(0, line.find("%")))
-                //     {
-                //         outfile << line.substr(0, line.find("%")) << "%" << pin << endl;
-                //     }
-                //     else
-                //     {
-                //         outfile << line << endl;
-                //     }
-                // }
-
                 ofstream outfile("temp.txt");
                 while (getline(file, line))
                 {
                     if (name == line.substr(0, line.find("%")))
                     {
-                        outfile << name << "%" << pin << "*" << balance << endl;
+                        outfile << name << "%" << pin << "*" << balance << "$" << fpin << endl;
                     }
                     else
                     {
@@ -275,6 +361,9 @@ public:
                 // delete the original file and rename the temp file
                 remove("data.txt");
                 rename("temp.txt", "data.txt");
+
+                cout << "\n ***** PIN Changed Succesfully *****" << endl;
+                cout << "\n-----------------------" << endl;
             }
             else
             {
@@ -289,7 +378,7 @@ public:
         {
             system("cls");
             cout << "-----------------------" << endl;
-            cout << "\nNo Account has been created yet \n First Create one account" << endl;
+            cout << "\nNo Account has been Logged in yet \nFirst login with an account to change pin" << endl;
             cout << "\n-----------------------" << endl;
             system("pause");
         }
@@ -335,7 +424,7 @@ public:
             {
                 if (name == line.substr(0, line.find("%")))
                 {
-                    outfile << name << "%" << pin << "*" << balance << endl;
+                    outfile << name << "%" << pin << "*" << balance << "$" << fpin << endl;
                 }
                 else
                 {
@@ -420,7 +509,7 @@ public:
                     {
                         if (name == line.substr(0, line.find("%")))
                         {
-                            outfile << name << "%" << pin << "*" << balance << endl;
+                            outfile << name << "%" << pin << "*" << balance << "$" << fpin << endl;
                         }
                         else
                         {
@@ -474,12 +563,12 @@ int main()
 
         cout << "1.Open new a Savings Account" << endl;
         cout << "2.Open a Existing Savings Account" << endl;
-        cout << "3.Change Pin of your Savings Account" << endl;
-        cout << "4.Show Balance in Savings Account" << endl;
-        cout << "5.Add Money to Savings Account" << endl;
-        cout << "6.Withdraw Money form Savings Account" << endl;
-
-        cout << "7.Logout & Exit" << endl;
+        cout << "3.Forgot Pin of your Savings Account" << endl;
+        cout << "4.Change Pin of your Savings Account" << endl;
+        cout << "5.Show Balance in Savings Account" << endl;
+        cout << "6.Add Money to Savings Account" << endl;
+        cout << "7.Withdraw Money form Savings Account" << endl;
+        cout << "8.Logout & Exit" << endl;
         cout << "\n-----------------------" << endl;
 
         cout << "\n>>";
@@ -498,25 +587,30 @@ int main()
 
         if (u == 3)
         {
-            obj.ChangePin();
+            obj.ForgotPin();
         }
 
         if (u == 4)
         {
-            obj.PrintBalance();
+            obj.ChangePin();
         }
 
         if (u == 5)
         {
-            obj.AddMoney();
+            obj.PrintBalance();
         }
 
         if (u == 6)
         {
+            obj.AddMoney();
+        }
+
+        if (u == 7)
+        {
             obj.WithdrawMoney();
         }
 
-    } while (u != 7);
+    } while (u != 8);
 
     system("cls");
     cout << "-----------------------" << endl;
