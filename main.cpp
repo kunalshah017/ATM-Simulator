@@ -1,3 +1,4 @@
+#include <cstdlib>
 #include <iostream>
 #include <string>
 #include <cstring>
@@ -242,11 +243,10 @@ public:
 
 int main()
 {
-    int u;
-    account obj;
+    int choice;
+    account acct;
 
-    do
-    {
+    do{
         system("cls");
 
         cout << "-----------------------" << endl;
@@ -266,40 +266,40 @@ int main()
         cout << "\n-----------------------" << endl;
 
         cout << "\n>>";
-        cin >> u;
+        cin >> choice;
         cin.ignore();
 
-        if (u == 1)
-        {
-            obj.CreateAccount();
-        }
+	switch (choice) {
+		case 1:
+			acct.CreateAccount();
+			break;
+		case 2:
+			acct.ChangePin();
+			break;
+		case 3:
+			acct.PrintBalance();
+			break;
+		case 4:
+			acct.AddMoney();
+			break;
+		case 5:
+			acct.WithdrawMoney();
+			break;
+		case 6:
+			exit(0);
+			break;
+		default:
+			cout << "Please select from the given option";
+		}
 
-        if (u == 2)
-        {
-            obj.ChangePin();
-        }
-
-        if (u == 3)
-        {
-            obj.PrintBalance();
-        }
-
-        if (u == 4)
-        {
-            obj.AddMoney();
-        }
-
-        if (u == 5)
-        {
-            obj.WithdrawMoney();
-        }
-
-    } while (u != 6);
+	}while (choice != 0);
+	
 
     system("cls");
     cout << "-----------------------" << endl;
     cout << "\nThank you for trying this program" << endl;
     cout << "\n-----------------------" << endl;
     system("pause");
+
     return 0;
 }
