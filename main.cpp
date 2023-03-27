@@ -256,16 +256,16 @@ int main()
         cout << "\n-----------------------" << endl;
         cout << "\nChoose option by pressing option number eg.1,2,3.." << endl;
 
-        cout << "1.Open a Savings Account" << endl;
-        cout << "2.Change Pin of your Savings Account" << endl;
-        cout << "3.Show Balance in Savings Account" << endl;
-        cout << "4.Add Money to Savings Account" << endl;
-        cout << "5.Withdraw Money form Savings Account" << endl;
+        cout << "1. Open a Savings Account" << endl;
+        cout << "2. Change Pin of your Savings Account" << endl;
+        cout << "3. Show Balance in Savings Account" << endl;
+        cout << "4. Add Money to Savings Account" << endl;
+        cout << "5. Withdraw Money form Savings Account" << endl;
 
         cout << "6.Logout & Exit" << endl;
         cout << "\n-----------------------" << endl;
 
-        cout << "\n>>";
+        cout << "\n>> ";
         cin >> choice;
         cin.ignore();
 
@@ -289,8 +289,7 @@ int main()
 			exit(0);
 			break;
 		default:
-			cout << "Please select from the given option";
-		}
+			cout << "Please select from the given option";}
 
 	}while (choice != 0);
 	
