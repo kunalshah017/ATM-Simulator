@@ -3,10 +3,8 @@
 #include <string>
 #include <cstring>
 #include <conio.h>
-#include <cstdlib>
 
 using namespace std;
-void clear_screen();
 
 class account
 {
@@ -21,7 +19,7 @@ public:
     {
         if (name != "null")
         {
-            clear_screen();
+            system("cls");
             cout << "-----------------------" << endl;
             cout << "\nAccount has Already been created" << endl;
             cout << "\n-----------------------" << endl;
@@ -30,7 +28,7 @@ public:
 
         else
         {
-            clear_screen();
+            system("cls");
             cout << "-----------------------" << endl;
 
             cout << "\nEnter your Full Name :- ";
@@ -65,7 +63,7 @@ public:
         if (name != "null")
         {
             string extpin = "";
-            clear_screen();
+            system("cls");
             cout << "-----------------------" << endl;
             cout << "\nEnter your existing pin :- ";
             while ((ch = getch()) != '\r')
@@ -112,7 +110,7 @@ public:
             }
             else
             {
-                clear_screen();
+                system("cls");
                 cout << "-----------------------" << endl;
                 cout << "\nPin does not match please try again" << endl;
                 cout << "\n-----------------------" << endl;
@@ -121,7 +119,7 @@ public:
         }
         else
         {
-            clear_screen();
+            system("cls");
             cout << "-----------------------" << endl;
             cout << "\nNo Account has been created yet \n First Create one account" << endl;
             cout << "\n-----------------------" << endl;
@@ -133,7 +131,7 @@ public:
     {
         if (name != "null")
         {
-            clear_screen();
+            system("cls");
             cout << "-----------------------" << endl;
             cout << "\nAccount Holder Name :- " << name << endl;
             cout << "Your Savings Account Balance is :- " << balance << " Rupees " << endl;
@@ -142,7 +140,7 @@ public:
         }
         else
         {
-            clear_screen();
+            system("cls");
             cout << "-----------------------" << endl;
             cout << "\nNo Account has been created yet \n First Create one account" << endl;
             cout << "\n-----------------------" << endl;
@@ -154,7 +152,7 @@ public:
     {
         if (name != "null")
         {
-            clear_screen();
+            system("cls");
             cout << "-----------------------" << endl;
             cout << "\nHow much money do you want to add :- ";
             cin >> deposit;
@@ -167,7 +165,7 @@ public:
         }
         else
         {
-            clear_screen();
+            system("cls");
             cout << "-----------------------" << endl;
             cout << "\nNo Account has been created yet \n First Create one account" << endl;
             cout << "\n-----------------------" << endl;
@@ -181,7 +179,7 @@ public:
 
         if (name == "null")
         {
-            clear_screen();
+            system("cls");
             cout << "-----------------------" << endl;
             cout << "\nNo Account has been created yet \n First Create one account" << endl;
             cout << "\n-----------------------" << endl;
@@ -190,7 +188,7 @@ public:
 
         else
         {
-            clear_screen();
+            system("cls");
             cout << "-----------------------" << endl;
             cout << "\n Enter your pin :- ";
             while ((ch = getch()) != '\r')
@@ -213,7 +211,7 @@ public:
 
             if (name != "null" && extpin == pin)
             {
-                clear_screen();
+                system("cls");
                 cout << "-----------------------" << endl;
                 cout << "\nHow much money do you want to withdraw :- ";
                 cin >> withdraw;
@@ -233,7 +231,7 @@ public:
             }
             if (name != "null" && extpin != pin)
             {
-                clear_screen();
+                system("cls");
                 cout << "-----------------------" << endl;
                 cout << "\nPin does not match please try again" << endl;
                 cout << "\n-----------------------" << endl;
@@ -247,6 +245,9 @@ int main()
 {
     int choice;
     account acct;
+
+    do{
+        system("cls");
 
         cout << "-----------------------" << endl;
         cout << " Welcome to Kunal's ATM Banking" << endl;
@@ -293,21 +294,11 @@ int main()
 	}while (choice != 0);
 	
 
-    clear_screen();
+    system("cls");
     cout << "-----------------------" << endl;
     cout << "\nThank you for trying this program" << endl;
     cout << "\n-----------------------" << endl;
     system("pause");
 
     return 0;
-}
-
-
-void clear_screen()
-{
-#ifdef WINDOWS
-    std::system("cls");
-#else
-    std::system ("clear");
-#endif
 }
