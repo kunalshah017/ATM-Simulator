@@ -1,4 +1,4 @@
-# ATM Simulator in Console
+<h1 align="middle">ATM Simulator in Console <br></h1>
 
 <div style="display:flex;">  <div style="flex:1;">This is a C++ code for an ATM simulator in console. The code allows you to create an account, change your PIN, print your balance, add money to your account, and withdraw money from your account.
  </div>  
