@@ -1,8 +1,12 @@
-# ATM Simulator in Console
+<h1 align="middle">ATM Simulator in Console <br></h1>
 
-This is a C++ code for an ATM simulator in console. The code allows you to create an account, change your PIN, print your balance, add money to your account, and withdraw money from your account.
+<div style="display:flex;">  <div style="flex:1;">This is a C++ code for an ATM simulator in console. The code allows you to create an account, change your PIN, print your balance, add money to your account, and withdraw money from your account.
+ </div>  
+<div style="flex:1;"><br>    
+<img src="https://media.discordapp.net/attachments/990816819654852648/1089277246210060348/Kunal._.S_kid_using_atm_in_laptop__640_by_320_pixels__realistic_27630533-0ddc-4208-b657-c41fa89a9d3c.png?width=498&height=498" alt="A kid playing with binary numbers" align="right" width=400>  </div></div>
 
-![ATM Simulator Image](https://media.discordapp.net/attachments/990816819654852648/1089277246210060348/Kunal._.S_kid_using_atm_in_laptop__640_by_320_pixels__realistic_27630533-0ddc-4208-b657-c41fa89a9d3c.png?width=498&height=498)
+## Contributors
+[![Contributors](https://contrib.rocks/image?repo=kunalshah017/ATM-Simulator)](https://github.com/kunalshah017/ATM-Simulator/graphs/contributors)
 
 ## Instructions
 
