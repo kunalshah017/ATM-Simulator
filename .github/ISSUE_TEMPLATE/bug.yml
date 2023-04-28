@@ -34,9 +34,9 @@ body:
       label: "Operating System"
       description: "Which OS are you Using ?"
       options:
-        -"Windows 7/10/11"
-        -"Linux"
-        -"Mac"
+        - "Windows 7/10/11"
+        - "Linux"
+        - "Mac"
     validations:
       required: true
 
