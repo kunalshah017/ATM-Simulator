@@ -31,6 +31,8 @@ This program has the following features:
 
 Contributions are welcome! If you find a bug or have a feature request, please create an issue on the GitHub repository.
 
+See our [Contribution Guidelines](./CONTRIBUTING.md) for details on how to contribute to this project.
+
 
 ## License
 
