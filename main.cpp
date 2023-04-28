@@ -1,8 +1,11 @@
 #include <iostream>
 #include <string>
 #include <cstring>
-#include <conio.h>
+#include <cstdio>
 #include <fstream>
+#ifdef _WIN32
+#include <conio.h>
+#endif
 
 using namespace std;
 
@@ -63,6 +66,8 @@ public:
             else
             {
                 cout << "\nSet a Pin :- ";
+
+#ifdef _WIN32
                 while ((ch = getch()) != '\r')
                 {
                     if (ch == '\b')
@@ -79,6 +84,10 @@ public:
                         cout << "*";
                     }
                 }
+
+#else
+                cin >> pin;
+#endif
 
                 cout << "\n\nSet Forgot Pin Question \nName of your First School ? :- ";
                 getline(cin, fpin);
@@ -301,6 +310,8 @@ public:
             system("cls");
             cout << "-----------------------" << endl;
             cout << "\nEnter your existing pin :- ";
+
+#ifdef _WIN32
             while ((ch = getch()) != '\r')
             {
                 if (ch == '\b')
@@ -317,6 +328,9 @@ public:
                     cout << "*";
                 }
             }
+#else
+            cin >> extpin;
+#endif
 
             if (extpin == pin)
             {
@@ -325,6 +339,8 @@ public:
 
                 cout << "\nEnter New Pin :- ";
                 pin = "";
+
+#ifdef _WIN32
                 while ((ch = getch()) != '\r')
                 {
                     if (ch == '\b')
@@ -341,6 +357,9 @@ public:
                         cout << "*";
                     }
                 }
+#else
+                cin >> pin;
+#endif
 
                 ofstream outfile("temp.txt");
                 while (getline(file, line))
@@ -471,6 +490,8 @@ public:
             system("cls");
             cout << "-----------------------" << endl;
             cout << "\n Enter your pin :- ";
+
+#ifdef _WIN32
             while ((ch = getch()) != '\r')
             {
                 if (ch == '\b')
@@ -487,6 +508,10 @@ public:
                     cout << "*";
                 }
             }
+#else
+            cin >> extpin;
+#endif
+
             cout << "\n-----------------------" << endl;
 
             if (name != "null" && extpin == pin)
