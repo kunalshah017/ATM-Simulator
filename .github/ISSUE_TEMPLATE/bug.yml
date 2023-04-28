@@ -32,11 +32,11 @@ body:
     id: browser
     attributes:
       label: "Operating System"
-      description: "What OS are you Using ?"
+      description: "Which OS are you Using ?"
       options:
-        -Windows 7/10/11
-        -Linux
-        - Mac
+        -"Windows 7/10/11"
+        -"Linux"
+        -"Mac"
     validations:
       required: true
 
