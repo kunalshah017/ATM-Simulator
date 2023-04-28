@@ -3,7 +3,7 @@ description: Have a new idea/feature for this project? Would love to hear it!
 title: "[FEATURE] <what do you have to add>"
 labels:
   [
-    "feature",
+    "enhancement",
   ]
 body:
   - type: textarea
