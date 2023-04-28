@@ -1,8 +1,12 @@
+//ATM IN CONSOLE
+
 #include <cstdlib>
 #include <iostream>
 #include <string>
 #include <cstring>
+#ifdef _WIN32
 #include <conio.h>
+#endif
 
 using namespace std;
 
@@ -35,6 +39,8 @@ public:
             getline(cin, name);
 
             cout << "\nSet a Pin :- ";
+
+#ifdef _WIN32
             while ((ch = getch()) != '\r')
             {
                 if (ch == '\b')
@@ -51,6 +57,9 @@ public:
                     cout << "*";
                 }
             }
+#else
+cin>>pin;
+#endif
 
             cout << "\n\n***** Account has been created succesfully *****" << endl;
             cout << "\n-----------------------" << endl;
@@ -66,6 +75,7 @@ public:
             system("cls");
             cout << "-----------------------" << endl;
             cout << "\nEnter your existing pin :- ";
+#ifdef _WIN32
             while ((ch = getch()) != '\r')
             {
                 if (ch == '\b')
@@ -82,11 +92,14 @@ public:
                     cout << "*";
                 }
             }
-
+#else
+cin>>extpin;
+#endif
             if (extpin == pin)
             {
                 cout << "\nEnter New Pin :- ";
                 pin = "";
+#ifdef _WIN32
                 while ((ch = getch()) != '\r')
                 {
                     if (ch == '\b')
@@ -103,6 +116,9 @@ public:
                         cout << "*";
                     }
                 }
+#else
+cin>>pin;
+#endif
 
                 cout << "\n***** Pin Changed succesfully *****" << endl;
                 cout << "\n-----------------------" << endl;
@@ -191,6 +207,7 @@ public:
             system("cls");
             cout << "-----------------------" << endl;
             cout << "\n Enter your pin :- ";
+#ifdef _WIN32
             while ((ch = getch()) != '\r')
             {
                 if (ch == '\b')
@@ -207,6 +224,9 @@ public:
                     cout << "*";
                 }
             }
+#else
+cin>>extpin;
+#endif
             cout << "\n-----------------------" << endl;
 
             if (name != "null" && extpin == pin)
