@@ -3,8 +3,7 @@ description: Report an issue to help improve the project.
 title: "[BUG] <what went wrong>"
 labels:
   [
-    "bug",
-    "hacktoberfest",
+    "bug"
   ]
 body:
   - type: textarea
@@ -32,16 +31,12 @@ body:
   - type: dropdown
     id: browser
     attributes:
-      label: "🥦 Browser"
-      description: "What browser are you using ?"
+      label: "Operating System"
+      description: "What OS are you Using ?"
       options:
-        - Google Chrome
-        - Brave
-        - Microsoft Edge
-        - Mozilla Firefox
-        - Safari
-        - Opera
-        - Other
+        -Windows 7/10/11
+        -Linux
+        - Mac
     validations:
       required: true
 
@@ -58,7 +53,7 @@ body:
     attributes:
       label: "🏢 Have you read the Contributing Guidelines?"
       options:
-        - label: "I have read and understood the rules in the [Contributing Guidelines](https://github.com/Dun-sin/template-portfolio/blob/main/CONTRIBUTING.md)"
+        - label: "I have read and understood the rules in the [Contributing Guidelines](https://github.com/kunalshah017/ATM-Simulator/blob/master/CONTRIBUTING.md)"
           required: true
 
   - type: dropdown
@@ -70,5 +65,4 @@ body:
   - type: markdown
     attributes:
       value: |
-        Follow me on Twitter [here](https://twitter.com/DunsinWebDev)
-        Feel free to Join the discord server [here](https://discord.gg/kcFraw3nhz) and check out other cool repositories [here](https://github.com/Dunsin)
+        Follow me on Twitter [here](https://twitter.com/kunalshah017)
