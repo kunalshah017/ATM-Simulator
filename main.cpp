@@ -105,6 +105,7 @@ public:
 
 #else
                 cin >> pin;
+                cin.ignore();
 #endif
 
                 cout << "\n\nSet Forgot Pin Question \nName of your First School ? :- ";
