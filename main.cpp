@@ -823,21 +823,3 @@ int main()
 #endif
     return 0;
 }
-
-// void clear()
-// {
-// #ifdef _WIN32
-
-// #else
-//     system("clear");
-// #endif
-// }
-
-// void pause()
-// {
-// #ifdef _WIN32
-
-// #else
-//     system("read -p 'Press Enter to continue...' var");
-// #endif
-// }
