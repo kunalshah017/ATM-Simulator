@@ -2,6 +2,9 @@
 #include <string>
 #include <cstring>
 #include <cstdio>
+#include <cstdlib>
+#include <ctime>
+#include <random>
 #include <fstream>
 #ifdef _WIN32
 #include <conio.h>
@@ -18,6 +21,7 @@ private:
     int balance = 0, withdraw, deposit;
     string pin = "", fpin = "";
     char ch;
+    long int random = 9999999, AccountNumber = 0;
 
 public:
     void CreateAccount()
@@ -55,19 +59,19 @@ public:
             cout << "\nEnter your Full Name :- ";
             getline(cin, name);
 
-            file.seekg(0, ios::beg);
+            // file.seekg(0, ios::beg);
 
-            while (getline(file, line))
-            {
+            // while (getline(file, line))
+            // {
 
-                string file_name = line.substr(0, line.find("%"));
+            //     string file_name = line.substr(0, line.find("%"));
 
-                if (name == file_name)
-                {
-                    found = true;
-                    break;
-                }
-            }
+            //     if (name == file_name)
+            //     {
+            //         found = true;
+            //         break;
+            //     }
+            // }
 
             if (found)
             {
@@ -81,50 +85,85 @@ public:
                 system("read -p 'Press Enter to continue...' var");
 #endif
             }
-            else
-            {
-                cout << "\nSet a Pin :- ";
+
+            cout << "\nSet a Pin :- ";
 
 #ifdef _WIN32
-                while ((ch = getch()) != '\r')
+            while ((ch = getch()) != '\r')
+            {
+                if (ch == '\b')
                 {
-                    if (ch == '\b')
+                    if (pin.length() > 0)
                     {
-                        if (pin.length() > 0)
-                        {
-                            pin.pop_back();
-                            cout << "\b \b";
-                        }
+                        pin.pop_back();
+                        cout << "\b \b";
                     }
-                    else
+                }
+                else
+                {
+                    pin.push_back(ch);
+                    cout << "*";
+                }
+            }
+
+#else
+            cin >> pin;
+            cin.ignore();
+#endif
+
+            cout << "\n\nSet Forgot Pin Question \nName of your First School ? :- ";
+            getline(cin, fpin);
+
+            srand(time(NULL));
+            AccountNumber = rand() % random + 1;
+
+            do
+            {
+                file.seekg(0, ios::beg);
+                while (getline(file, line))
+                {
+                    string tempaccno = line.substr(0, line.find("^"));
+                    if (tempaccno == to_string(AccountNumber) && AccountNumber != 0)
                     {
-                        pin.push_back(ch);
-                        cout << "*";
+                        found = true;
+                        break;
                     }
                 }
 
-#else
-                cin >> pin;
-                cin.ignore();
-#endif
+                if (found)
+                {
+                    srand(time(NULL));
+                    AccountNumber = rand() % random + 1;
+                }
+            } while (found);
 
-                cout << "\n\nSet Forgot Pin Question \nName of your First School ? :- ";
-                getline(cin, fpin);
+            ofstream outfile("data.txt", ios::app);
+            outfile << AccountNumber << "^" << name << "%" << pin << "*" << balance << "$" << fpin << endl;
+            outfile.close();
 
-                ofstream outfile("data.txt", ios::app);
-                outfile << name << "%" << pin << "*" << balance << "$" << fpin << endl;
-                outfile.close();
+            cout << "\n\n***** Account has been created succesfully *****" << endl;
+            cout << "\n\n Press Enter to View your Account Details";
+            cout << "\n-----------------------" << endl;
 
-                cout << "\n\n***** Account has been created succesfully *****" << endl;
-                cout << "\n-----------------------" << endl;
 #ifdef _WIN32
-                system("pause");
+            system("pause");
 #else
-                system("read -p 'Press Enter to continue...' var");
+            system("read -p 'Press Enter to continue...' var");
 #endif
-            }
+            cout << "\n\n-----------------------\n\n";
+            cout << "\n\nAccount Number :- " << AccountNumber << endl;
+            cout << "\nName :- " << name << endl;
+            cout << "\nBalance :- " << balance << endl;
+            cout << "\n-----------------------" << endl;
+#ifdef _WIN32
+            system("pause");
+#else
+            system("read -p 'Press Enter to continue...' var");
+#endif
         }
     }
+
+    // Existing Account-------------------------------------------------------------------------
 
     void ExistingAccount()
     {
@@ -158,38 +197,54 @@ public:
         else if (name == "null")
         {
 
-            cout << "\nEnter your full name :- ";
-            getline(cin, name);
+            // cout << "\nEnter your full name :- ";
+            // getline(cin, name);
 
+            // file.seekg(0, ios::beg);
+
+            // while (getline(file, line))
+            // {
+
+            //     string file_name = line.substr(0, line.find("%"));
+
+            //     if (name == file_name)
+            //     {
+            //         found = true;
+            //         break;
+            //     }
+            // }
+
+            cout << "\nEnter your Account Number :- ";
+            cin >> AccountNumber;
+            cin.ignore();
+            string str_AccountNumber = to_string(AccountNumber);
             file.seekg(0, ios::beg);
 
             while (getline(file, line))
             {
 
-                string file_name = line.substr(0, line.find("%"));
+                string file_AccountNumber = line.substr(0, line.find("^"));
 
-                if (name == file_name)
+                if (str_AccountNumber == file_AccountNumber)
                 {
                     found = true;
                     break;
                 }
             }
 
-            file.seekg(0, ios::beg);
+            // while (getline(file, balanceline))
+            // {
 
-            while (getline(file, balanceline))
-            {
+            //     string file_name = line.substr(0, line.find("%"));
 
-                string file_name = line.substr(0, line.find("%"));
+            //     if (name == file_name)
+            //     {
+            //         balancefound = true;
+            //         break;
+            //     }
+            // }
 
-                if (name == file_name)
-                {
-                    balancefound = true;
-                    break;
-                }
-            }
-
-            if (found && balancefound)
+            if (found)
             {
                 cout << "\nEnter your Account pin :- ";
                 string temppin;
@@ -201,6 +256,7 @@ public:
                     string tempbalance;
                     tempbalance = line.substr(line.find("*") + 1, line.find("$") - line.find("*") - 1);
                     balance = stoi(tempbalance);
+                    name = line.substr(line.find("^") + 1, line.find("%") - line.find("^") - 1);
                     fpin = line.substr(line.find("$") + 1);
                     cout << "\nWelcome " << name << "!" << endl;
                     file.close();
@@ -214,7 +270,7 @@ public:
                 else
                 {
                     pin = "";
-                    name = "null";
+                    AccountNumber = 0;
 #ifdef _WIN32
                     system("cls");
 #else
@@ -230,10 +286,10 @@ public:
 #endif
                 }
             }
-            else if (!found || !balancefound)
+            else if (!found)
             {
-                name = "null";
-                cout << "\nAccount does not exist under this name" << endl;
+                AccountNumber = 0;
+                cout << "\nAccount does not exist under this Acoount Number" << endl;
                 file.close();
                 cout << "\n-----------------------" << endl;
 #ifdef _WIN32
@@ -261,6 +317,8 @@ public:
         }
     }
 
+    // FORGOT PIN-------------------------------------------------------------------------
+
     void ForgotPin()
     {
         if (name == "null")
@@ -274,17 +332,19 @@ public:
             ifstream file("data.txt");
             bool found = false;
             cout << "-----------------------" << endl;
-            cout << "\nEnter your Full Name :- ";
-            getline(cin, name);
 
+            cout << "\nEnter your Account Number :- ";
+            cin >> AccountNumber;
+            cin.ignore();
+            string str_AccountNumber = to_string(AccountNumber);
             file.seekg(0, ios::beg);
 
             while (getline(file, line))
             {
 
-                string file_name = line.substr(0, line.find("%"));
+                string file_AccountNumber = line.substr(0, line.find("^"));
 
-                if (name == file_name)
+                if (str_AccountNumber == file_AccountNumber)
                 {
                     found = true;
                     break;
@@ -312,7 +372,7 @@ public:
                     {
                         if (name == line.substr(0, line.find("%")))
                         {
-                            outfile << name << "%" << pin << "*" << balance << "$" << fpin << endl;
+                            outfile << AccountNumber << "^" << name << "%" << pin << "*" << balance << "$" << fpin << endl;
                         }
                         else
                         {
@@ -361,7 +421,7 @@ public:
             else if (!found)
             {
                 name = "null";
-                cout << "\nAccount does not exist under this name" << endl;
+                cout << "\nAccount does not exist under this Account Number" << endl;
                 file.close();
                 cout << "\n-----------------------" << endl;
 #ifdef _WIN32
@@ -735,85 +795,143 @@ public:
             }
         }
     }
+
+    void Logout()
+    {
+        name = "null";
+        pin = "";
+        balance = 0;
+        fpin = "";
+    }
+};
+
+class operationmode : public account
+{
+public:
+    // ADMIN MODE
+    void admin()
+    {
+
+        // #ifdef _WIN32
+        //         system("pause");
+        // #else
+        //         system("read -p 'Press Enter to continue...' var");
+        // #endif
+    }
+
+    // USER MODE
+    void user()
+    {
+        int u;
+        account obj;
+
+        do
+        {
+#ifdef _WIN32
+            system("cls");
+#else
+            system("clear");
+#endif
+
+            cout << "-----------------------" << endl;
+            cout << " Welcome to Kunal's ATM Banking" << endl;
+            cout << "-----------------------" << endl;
+
+            cout << "\n-----------------------" << endl;
+            cout << "\nChoose option by pressing option number eg.1,2,3.." << endl;
+
+            cout << "\n1. Open new a Savings Account" << endl;
+            cout << "2. Open a Existing Savings Account" << endl;
+            cout << "3. Forgot Pin of your Savings Account" << endl;
+            cout << "4. Change Pin of your Savings Account" << endl;
+            cout << "5. Show Balance in Savings Account" << endl;
+            cout << "6. Add Money to Savings Account" << endl;
+            cout << "7. Withdraw Money form Savings Account" << endl;
+            cout << "8. Logout & Exit" << endl;
+            cout << "\n-----------------------" << endl;
+
+            cout << "\n>> ";
+            cin >> u;
+            cin.ignore();
+
+            if (u == 1)
+            {
+                obj.CreateAccount();
+            }
+
+            if (u == 2)
+            {
+                obj.ExistingAccount();
+            }
+
+            if (u == 3)
+            {
+                obj.ForgotPin();
+            }
+
+            if (u == 4)
+            {
+                obj.ChangePin();
+            }
+
+            if (u == 5)
+            {
+                obj.PrintBalance();
+            }
+
+            if (u == 6)
+            {
+                obj.AddMoney();
+            }
+
+            if (u == 7)
+            {
+                obj.WithdrawMoney();
+            }
+        } while (u != 8);
+    }
 };
 
 int main()
 {
+    operationmode obj;
     int u;
-    account obj;
 
-    do
+    cout << "-----------------------" << endl;
+    cout << " Welcome to Kunal's ATM Banking" << endl;
+    cout << "-----------------------" << endl;
+    cout << "\nSelect Mode by pressing option number eg.1,2,3.." << endl;
+    cout << "\n1. User Mode" << endl;
+    cout << "2. Admin Mode" << endl;
+    cout << "3. Exit" << endl;
+    cout << "\n-----------------------" << endl;
+
+    cout << "\n>> ";
+    cin >> u;
+    cin.ignore();
+
+    if (u == 1)
     {
-#ifdef _WIN32
-        system("cls");
-#else
-        system("clear");
-#endif
+        obj.user();
+    }
 
-        cout << "-----------------------" << endl;
-        cout << " Welcome to Kunal's ATM Banking" << endl;
-        cout << "-----------------------" << endl;
+    if (u == 2)
+    {
+        obj.admin();
+    }
 
-        cout << "\n-----------------------" << endl;
-        cout << "\nChoose option by pressing option number eg.1,2,3.." << endl;
+    if (u == 3)
+    {
+        return 0;
+    }
 
-        cout << "\n1. Open new a Savings Account" << endl;
-        cout << "2. Open a Existing Savings Account" << endl;
-        cout << "3. Forgot Pin of your Savings Account" << endl;
-        cout << "4. Change Pin of your Savings Account" << endl;
-        cout << "5. Show Balance in Savings Account" << endl;
-        cout << "6. Add Money to Savings Account" << endl;
-        cout << "7. Withdraw Money form Savings Account" << endl;
-        cout << "8. Logout & Exit" << endl;
-        cout << "\n-----------------------" << endl;
-
-        cout << "\n>> ";
-        cin >> u;
-        cin.ignore();
-
-        if (u == 1)
-        {
-            obj.CreateAccount();
-        }
-
-        if (u == 2)
-        {
-            obj.ExistingAccount();
-        }
-
-        if (u == 3)
-        {
-            obj.ForgotPin();
-        }
-
-        if (u == 4)
-        {
-            obj.ChangePin();
-        }
-
-        if (u == 5)
-        {
-            obj.PrintBalance();
-        }
-
-        if (u == 6)
-        {
-            obj.AddMoney();
-        }
-
-        if (u == 7)
-        {
-            obj.WithdrawMoney();
-        }
-
-    } while (u != 8);
-
+// BYE BYE MESSAGE
 #ifdef _WIN32
     system("cls");
 #else
     system("clear");
 #endif
-    cout << "-----------------------" << endl;
+    cout << "\n-----------------------" << endl;
     cout << "\nThank you for trying this program" << endl;
     cout << "\n-----------------------" << endl;
 #ifdef _WIN32
