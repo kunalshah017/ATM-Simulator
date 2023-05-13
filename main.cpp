@@ -59,20 +59,6 @@ public:
             cout << "\nEnter your Full Name :- ";
             getline(cin, name);
 
-            // file.seekg(0, ios::beg);
-
-            // while (getline(file, line))
-            // {
-
-            //     string file_name = line.substr(0, line.find("%"));
-
-            //     if (name == file_name)
-            //     {
-            //         found = true;
-            //         break;
-            //     }
-            // }
-
             if (found)
             {
                 name = "null";
@@ -197,23 +183,6 @@ public:
         else if (name == "null")
         {
 
-            // cout << "\nEnter your full name :- ";
-            // getline(cin, name);
-
-            // file.seekg(0, ios::beg);
-
-            // while (getline(file, line))
-            // {
-
-            //     string file_name = line.substr(0, line.find("%"));
-
-            //     if (name == file_name)
-            //     {
-            //         found = true;
-            //         break;
-            //     }
-            // }
-
             cout << "\nEnter your Account Number :- ";
             cin >> AccountNumber;
             cin.ignore();
@@ -231,18 +200,6 @@ public:
                     break;
                 }
             }
-
-            // while (getline(file, balanceline))
-            // {
-
-            //     string file_name = line.substr(0, line.find("%"));
-
-            //     if (name == file_name)
-            //     {
-            //         balancefound = true;
-            //         break;
-            //     }
-            // }
 
             if (found)
             {
@@ -570,103 +527,94 @@ public:
         }
     }
 
-    void PrintBalance()
-    {
-        if (name != "null")
-        {
-#ifdef _WIN32
-            system("cls");
-#else
-            system("clear");
-#endif
-            cout << "-----------------------" << endl;
-            cout << "\nAccount Holder Name :- " << name << endl;
-            cout << "Your Savings Account Balance is :- " << balance << " Rupees " << endl;
-            cout << "\n-----------------------" << endl;
-#ifdef _WIN32
-            system("pause");
-#else
-            system("read -p 'Press Enter to continue...' var");
-#endif
-        }
-        else
-        {
-#ifdef _WIN32
-            system("cls");
-#else
-            system("clear");
-#endif
-            cout << "-----------------------" << endl;
-            cout << "\nNo Account has been created yet \n First Create one account" << endl;
-            cout << "\n-----------------------" << endl;
-#ifdef _WIN32
-            system("pause");
-#else
-            system("read -p 'Press Enter to continue...' var");
-#endif
-        }
-    }
-
     void AddMoney()
     {
         if (name != "null")
-        {
-            string line;
-            ifstream file("data.txt");
 
+        {
+            ifstream inputFile("data.txt");
+            if (!inputFile)
+            {
+                cout << "Error: Unable to open data.txt" << endl;
+                return;
+            }
+
+            ofstream tempFile("temp.txt");
+            if (!tempFile)
+            {
+                cout << "Error: Unable to open temp.txt" << endl;
+                inputFile.close();
+                return;
+            }
+
+            string line;
 #ifdef _WIN32
             system("cls");
 #else
             system("clear");
 #endif
+
             cout << "-----------------------" << endl;
-            cout << "\nHow much money do you want to add :- ";
+            cout << "\nHow much money do you want to add: ";
+            int deposit;
             cin >> deposit;
             cin.ignore();
-            balance = balance + deposit;
 
-            ofstream outfile("temp.txt");
-            while (getline(file, line))
+            while (getline(inputFile, line))
             {
-                if (name == line.substr(0, line.find("%")))
+                string accountNumStr = line.substr(0, line.find("^"));
+                int accountNum = stoi(accountNumStr);
+
+                if (AccountNumber == accountNum)
                 {
-                    outfile << name << "%" << pin << "*" << balance << "$" << fpin << endl;
+                    string accountName = line.substr(line.find("^") + 1, line.find("%") - line.find("^") - 1);
+                    string password = line.substr(line.find("%") + 1, line.find("*") - line.find("%") - 1);
+                    string balanceStr = line.substr(line.find("*") + 1, line.find("$") - line.find("*") - 1);
+                    balance = stoi(balanceStr);
+
+                    balance += deposit;
+
+                    tempFile << AccountNumber << "^" << accountName << "%" << password << "*" << balance << "$" << line.substr(line.find("$") + 1) << endl;
+
+                    cout << "\nRupees " << deposit << " has been added to your account" << endl;
+                    cout << "-----------------------" << endl;
                 }
                 else
                 {
-                    outfile << line << endl;
+                    tempFile << line << endl;
                 }
             }
 
-            file.close();
-            outfile.close();
+            inputFile.close();
 
-            // delete the original file and rename the temp file
-            remove("data.txt");
-            rename("temp.txt", "data.txt");
+            if (remove("data.txt") != 0)
+            {
+                cout << "Error: Unable to delete data.txt" << endl;
+                return;
+            }
+            if (rename("temp.txt", "data.txt") != 0)
+            {
+                cout << "Error: Unable to rename temp.txt" << endl;
+                return;
+            }
 
-            cout << "\nRupees " << deposit << " has been added to your account " << endl;
-            cout << "\n-----------------------" << endl;
+            // Pause the program
 #ifdef _WIN32
             system("pause");
 #else
-            system("read -p 'Press Enter to continue...' var");
+            cout << "Press Enter to continue...";
+            cin.ignore();
 #endif
         }
         else
         {
-#ifdef _WIN32
-            system("cls");
-#else
-            system("clear");
-#endif
             cout << "-----------------------" << endl;
-            cout << "\nNo Account has been created yet \n First Create one account" << endl;
-            cout << "\n-----------------------" << endl;
+            cout << "\nNo Account has been created yet. First, create one account." << endl;
+            cout << "-----------------------" << endl;
 #ifdef _WIN32
             system("pause");
 #else
-            system("read -p 'Press Enter to continue...' var");
+            cin.ignore();
 #endif
         }
     }
@@ -739,32 +687,58 @@ public:
 
                 if (withdraw <= balance)
                 {
-                    string line;
-                    ifstream file("data.txt");
-
-                    balance = balance - withdraw;
-
-                    ofstream outfile("temp.txt");
-                    while (getline(file, line))
+                    ifstream inputFile("data.txt");
+                    if (!inputFile)
                     {
-                        if (name == line.substr(0, line.find("%")))
+                        cout << "Error: Unable to open data.txt" << endl;
+                        return;
+                    }
+
+                    ofstream tempFile("temp.txt");
+                    if (!tempFile)
+                    {
+                        cout << "Error: Unable to open temp.txt" << endl;
+                        inputFile.close();
+                        return;
+                    }
+
+                    string line;
+
+                    while (getline(inputFile, line))
+                    {
+                        string accountNumStr = line.substr(0, line.find("^"));
+                        int accountNum = stoi(accountNumStr);
+
+                        if (AccountNumber == accountNum)
                         {
-                            outfile << name << "%" << pin << "*" << balance << "$" << fpin << endl;
+                            string accountName = line.substr(line.find("^") + 1, line.find("%") - line.find("^") - 1);
+                            string password = line.substr(line.find("%") + 1, line.find("*") - line.find("%") - 1);
+                            string balanceStr = line.substr(line.find("*") + 1, line.find("$") - line.find("*") - 1);
+                            balance = stoi(balanceStr);
+
+                            balance -= withdraw;
+
+                            tempFile << AccountNumber << "^" << accountName << "%" << password << "*" << balance << "$" << line.substr(line.find("$") + 1) << endl;
+
+                            cout << "\nRupees " << withdraw << " has been withdrawn from your account " << endl;
                         }
                         else
                         {
-                            outfile << line << endl;
+                            tempFile << line << endl;
                         }
                     }
 
-                    file.close();
-                    outfile.close();
-
-                    // delete the original file and rename the temp file
-                    remove("data.txt");
-                    rename("temp.txt", "data.txt");
-
-                    cout << "\nRupees " << withdraw << " has been withdrawn from your account " << endl;
+                    inputFile.close();
+                    if (remove("data.txt") != 0)
+                    {
+                        cout << "Error: Unable to delete data.txt" << endl;
+                        return;
+                    }
+                    if (rename("temp.txt", "data.txt") != 0)
+                    {
+                        cout << "Error: Unable to rename temp.txt" << endl;
+                        return;
+                    }
                 }
                 else
                 {
@@ -802,6 +776,48 @@ public:
         pin = "";
         balance = 0;
         fpin = "";
+    }
+
+    void AccountDetails()
+    {
+        string extpin = "";
+
+        if (name == "null")
+        {
+#ifdef _WIN32
+            system("cls");
+#else
+            system("clear");
+#endif
+            cout << "Please Login with an account first" << endl;
+
+            cout << "\nPress Enter to continue...";
+            cin.ignore();
+        }
+        else
+        {
+
+#ifdef _WIN32
+            system("cls");
+#else
+            system("clear");
+#endif
+
+            cout << "\n\n-----------------------\n\n";
+            cout << "\n\nAccount Number :- " << AccountNumber << endl;
+            cout << "\nName :- " << name << endl;
+            cout << "\nBalance :- " << balance << endl;
+            cout << "\n-----------------------" << endl;
+
+            // #ifdef _WIN32
+            //             system("pause");
+            // #else
+            //             system("read -p 'Press Enter to continue...' var");
+            // #endif
+
+            cout << "\n\nPress Enter to continue...";
+            cin.ignore();
+        }
     }
 };
 
@@ -842,9 +858,9 @@ public:
 
             cout << "\n1. Open new a Savings Account" << endl;
             cout << "2. Open a Existing Savings Account" << endl;
-            cout << "3. Forgot Pin of your Savings Account" << endl;
-            cout << "4. Change Pin of your Savings Account" << endl;
-            cout << "5. Show Balance in Savings Account" << endl;
+            cout << "3. View Account Details" << endl;
+            cout << "4. Forgot Pin of your Savings Account" << endl;
+            cout << "5. Change Pin of your Savings Account" << endl;
             cout << "6. Add Money to Savings Account" << endl;
             cout << "7. Withdraw Money form Savings Account" << endl;
             cout << "8. Logout & Exit" << endl;
@@ -866,17 +882,17 @@ public:
 
             if (u == 3)
             {
-                obj.ForgotPin();
+                obj.AccountDetails();
             }
 
             if (u == 4)
             {
-                obj.ChangePin();
+                obj.ForgotPin();
             }
 
             if (u == 5)
             {
-                obj.PrintBalance();
+                obj.ChangePin();
             }
 
             if (u == 6)
@@ -894,7 +910,8 @@ public:
 
 int main()
 {
-    operationmode obj;
+
+    class operationmode obj;
     int u;
 
     cout << "-----------------------" << endl;
@@ -939,5 +956,6 @@ int main()
 #else
     system("read -p 'Press Enter to continue...' var");
 #endif
+
     return 0;
 }
