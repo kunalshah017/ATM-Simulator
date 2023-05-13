@@ -1,6 +1,8 @@
 name: CI
 
 on:
+  push:
+    branches: [master]
   pull_request:
     branches: [master]
 
@@ -12,4 +14,4 @@ jobs:
     - name: Build and test with GCC
       run: |
         g++ -o my_program main.cpp
-        ./my_program
+        ./my_program  
