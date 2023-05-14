@@ -6,6 +6,7 @@
 #include <ctime>
 #include <random>
 #include <fstream>
+#include <unistd.h>
 #ifdef _WIN32
 #include <conio.h>
 #else
@@ -919,7 +920,7 @@ public:
             return;
         }
 
-        ofstream exportFile("data.csv");
+        ofstream exportFile("database.csv");
         if (!exportFile)
         {
             cout << "Error: Unable to open data.csv" << endl;
@@ -929,11 +930,56 @@ public:
 
         string line;
 
-        inputFile.seekg(0, ios::end);
+        inputFile.seekg(0, ios::beg);
+        exportFile << "Account Number,Name,Pin,Balance,Forgot Pin Question" << endl;
         while (getline(inputFile, line))
         {
-            string exportAccountNumber = "", exportname = "", exportpin = "", exportbalance = "";
+            string exportAccountNumber = "", exportname = "", exportpin = "", exportbalance = "", exportfpin = "";
+            exportAccountNumber = line.substr(0, line.find("^"));
+            exportname = line.substr(line.find("^") + 1, line.find("%") - line.find("^") - 1);
+            exportpin = line.substr(line.find("%") + 1, line.find("*") - line.find("%") - 1);
+            exportbalance = line.substr(line.find("*") + 1, line.find("$") - line.find("*") - 1);
+            exportfpin = line.substr(line.find("$") + 1);
+
+            exportFile << exportAccountNumber << "," << exportname << "," << exportpin << "," << exportbalance << "," << exportfpin << endl;
+
+            exportAccountNumber = "";
+            exportname = "";
+            exportpin = "";
+            exportbalance = "";
+            exportfpin = "";
         }
+
+        inputFile.close();
+        exportFile.close();
+
+        for (int c = 0; c <= 100; c++)
+        {
+#ifdef _WIN32
+            system("cls");
+#else
+            system("clear");
+#endif
+            cout << "Exporting Data File " << c << "%";
+            cout.flush();
+            usleep(10000);
+        }
+
+#ifdef _WIN32
+        system("cls");
+#else
+        system("clear");
+#endif
+
+        cout << "-----------------------\n";
+        cout << "\nData Exported Successfully" << endl;
+        cout << "\n-----------------------" << endl;
+
+#ifdef _WIN32
+        system("pause");
+#else
+        system("read -p 'Press Enter to continue...' var");
+#endif
     }
 };
 
@@ -943,6 +989,39 @@ public:
     // ADMIN MODE
     void admin()
     {
+        int a;
+        do
+        {
+#ifdef _WIN32
+            system("cls");
+#else
+            system("clear");
+#endif
+
+            cout << "-----------------------" << endl;
+            cout << " Welcome to Kunal's ATM Banking" << endl;
+            cout << "-----------------------" << endl;
+
+            cout << "\n-----------------------" << endl;
+            cout << "\nChoose option by pressing option number eg.1,2,3.." << endl;
+
+            cout << "\n1. Export Program Data to Database.csv" << endl;
+            cout << "2. Logout" << endl;
+
+            cout << "\n-----------------------" << endl;
+
+            cout << "\n>> ";
+            cin >> a;
+
+            if (a == 1)
+            {
+                ExportDataFile();
+            }
+            else if (a == 2)
+            {
+                Logout();
+            }
+        } while (a != 2);
     }
 
     // USER MODE
@@ -1058,16 +1137,37 @@ int main()
 
         if (u == 2)
         {
-            cout << "\n\nEnter Admin Password : ";
+#ifdef _WIN32
+            system("cls");
+#else
+            system("clear");
+#endif
+            cout << "-----------------------" << endl;
+            cout << "\nEnter Admin Password : ";
+
             string pass;
             getline(cin, pass);
+
+            cout << "-----------------------\n";
             if (pass == AdminPassword)
             {
                 obj.admin();
             }
             else
             {
-                cout << "\n\nWrong Password";
+#ifdef _WIN32
+                system("cls");
+#else
+                system("clear");
+#endif
+                cout << "-----------------------" << endl;
+                cout << "\nIncorrect Password" << endl;
+                cout << "\n-----------------------" << endl;
+#ifdef _WIN32
+                system("pause");
+#else
+                system("read -p 'Press Enter to continue...' var");
+#endif
             }
         }
 

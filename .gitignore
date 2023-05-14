@@ -3,6 +3,7 @@
 notes.txt
 data.txt
 .vscode/
+database.csv
 
 # Prerequisites
 *.d
