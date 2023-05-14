@@ -1142,13 +1142,12 @@ int main()
 #else
             system("clear");
 #endif
-            cout << "-----------------------" << endl;
+
             cout << "\nEnter Admin Password : ";
 
             string pass;
             getline(cin, pass);
 
-            cout << "-----------------------\n";
             if (pass == AdminPassword)
             {
                 obj.admin();
