@@ -1080,7 +1080,7 @@ int main()
 #else
             system("clear");
 #endif
-            cout << "\-----------------------" << endl;
+            cout << "-----------------------" << endl;
             cout << "\nThank you for trying this program" << endl;
             cout << "\n-----------------------" << endl;
 #ifdef _WIN32
