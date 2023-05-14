@@ -9,7 +9,7 @@ Thanks for taking the time to contribute! Here are some guidelines to follow:
 - To contribute code changes, please fork the repository and create a new branch for your changes. Then submit a pull request to the main repository's `master` branch.
 <b><br>Dont directly push to master branch</b>
 
-- When making code contributions, make sure to follow the existing coding style and conventions.
+- <b>When making code contributions, make sure to follow the existing coding style and conventions.</b>
 
 - Include tests for any new functionality or bug fixes you add.
 
