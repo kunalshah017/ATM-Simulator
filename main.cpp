@@ -6,11 +6,12 @@
 #include <ctime>
 #include <random>
 #include <fstream>
-#include <unistd.h>
 #ifdef _WIN32
 #include <conio.h>
+#include <windows.h>
 #else
 #include <termios.h>
+#include <unistd.h>
 #endif
 
 using namespace std;
@@ -101,8 +102,14 @@ public:
             cout << "\n\nSet Forgot Pin Question \nName of your First School ? :- ";
             getline(cin, fpin);
 
+#ifdef _WIN32
+            srand(time(NULL));
+            AccountNumber = rand() % random + 1000000;
+#else
             srand(time(NULL));
             AccountNumber = rand() % random + 1;
+
+#endif
 
             do
             {
@@ -119,8 +126,14 @@ public:
 
                 if (found)
                 {
+#ifdef _WIN32
+                    srand(time(NULL));
+                    AccountNumber = rand() % random + 1000000;
+#else
                     srand(time(NULL));
                     AccountNumber = rand() % random + 1;
+
+#endif
                 }
             } while (found);
 
@@ -962,7 +975,11 @@ public:
 #endif
             cout << "Exporting Data File " << c << "%";
             cout.flush();
+#ifdef _WIN32
+            Sleep(25);
+#else
             usleep(10000);
+#endif
         }
 
 #ifdef _WIN32
