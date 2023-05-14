@@ -1,5 +1,7 @@
 # My Changes 
 *.ini
+notes.txt
+data.txt
 .vscode/
 
 # Prerequisites
