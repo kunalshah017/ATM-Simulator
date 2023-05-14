@@ -1,0 +1,40 @@
+name: Close Pull Request
+
+on:
+  pull_request:
+    types:
+      - closed
+
+jobs:
+  close_pull_request:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Comment and Close Pull Request
+        uses: actions/github-script@v4
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const issueNumber = context.payload.pull_request.number;
+            const owner = context.repo.owner;
+            const repo = context.repo.repo;
+            const comment = `# Thank you !! :heart:
+            Do solve the further issues if you liked working on this repo.
+            Your PR's and Suggestions are most welcomed.
+            
+            Give a Star to the repo if you liked it :star:
+            
+            Follow me on Twitter here [@kunalshah017](https://twitter.com/kunalshah017)`;
+            
+            github.issues.createComment({
+              owner,
+              repo,
+              issue_number: issueNumber,
+              body: comment
+            });
+            
+            github.pulls.update({
+              owner,
+              repo,
+              pull_number: issueNumber,
+              state: 'closed'
+            });
