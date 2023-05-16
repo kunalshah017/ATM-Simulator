@@ -968,7 +968,7 @@ public:
             cout << "--------------------------------\n";
             cout << "Exporting Data File " << c << "%";
             cout << "\nPlease Wait...";
-            cout << "--------------------------------\n";
+            cout << "\n--------------------------------\n";
 
 #ifdef _WIN32
             Sleep(25);
