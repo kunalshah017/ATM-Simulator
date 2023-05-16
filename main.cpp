@@ -26,6 +26,7 @@ private:
     long int random = 9999999, AccountNumber = 1;
 
 public:
+    // New Account-------------------------------------------------------------------------
     void CreateAccount()
     {
         ifstream file("data.txt");
@@ -39,9 +40,9 @@ public:
 #else
             system("clear");
 #endif
-            cout << "-----------------------" << endl;
+            cout << "-----------------------------------" << endl;
             cout << "\nAccount has Already been created" << endl;
-            cout << "\n-----------------------" << endl;
+            cout << "\n---------------------------------" << endl;
 #ifdef _WIN32
             system("pause");
 #else
@@ -56,23 +57,9 @@ public:
 #else
             system("clear");
 #endif
-            cout << "-----------------------" << endl;
 
-            cout << "\nEnter your Full Name :- ";
+            cout << "Enter your Full Name :- ";
             getline(cin, name);
-
-            if (found)
-            {
-                name = "null";
-                pin = "";
-                cout << "\n\nAlready an accout has been created under this name" << endl;
-                cout << "\n-----------------------" << endl;
-#ifdef _WIN32
-                system("pause");
-#else
-                system("read -p 'Press Enter to continue...' var");
-#endif
-            }
 
             cout << "\nSet a Pin :- ";
 
@@ -146,9 +133,9 @@ public:
 #else
             system("clear");
 #endif
-            cout << "-----------------------" << endl;
-            cout << "\n***** Account has been created succesfully *****" << endl;
-            cout << "\n-----------------------" << endl;
+            cout << "-------------------------------------------------" << endl;
+            cout << "***** Account has been created succesfully *****" << endl;
+            cout << "-------------------------------------------------" << endl;
             cout << "\n\nPlease Continue to View your Account Details" << endl;
 
 #ifdef _WIN32
@@ -162,11 +149,11 @@ public:
 #else
             system("clear");
 #endif
-            cout << "-----------------------\n";
+            cout << "---------------------------------------\n";
             cout << "\nAccount Number :- " << AccountNumber << endl;
             cout << "\nName :- " << name << endl;
             cout << "\nBalance :- " << balance << endl;
-            cout << "\n-----------------------" << endl;
+            cout << "\n---------------------------------------" << endl;
 #ifdef _WIN32
             system("pause");
 #else
@@ -185,7 +172,7 @@ public:
 #else
         system("clear");
 #endif
-        cout << "-----------------------" << endl;
+        cout << "---------------------------------------------------" << endl;
         ifstream file("data.txt");
         string line, balanceline;
         bool found = false, balancefound = false;
@@ -197,9 +184,9 @@ public:
 #else
             system("clear");
 #endif
-            cout << "-----------------------" << endl;
-            cout << "\nNo Account has been created yet \n First Create one account" << endl;
-            cout << "\n-----------------------" << endl;
+            cout << "---------------------------------------------------------" << endl;
+            cout << "No Account has been created yet First Create one account" << endl;
+            cout << "---------------------------------------------------------" << endl;
 #ifdef _WIN32
             system("pause");
 #else
@@ -243,7 +230,8 @@ public:
                     fpin = line.substr(line.find("$") + 1);
                     cout << "\nWelcome " << name << "!" << endl;
                     file.close();
-                    cout << "\n-----------------------" << endl;
+                    cout << "---------------------------------------------------" << endl;
+
 #ifdef _WIN32
                     system("pause");
 #else
@@ -259,9 +247,9 @@ public:
 #else
                     system("clear");
 #endif
-                    cout << "-----------------------" << endl;
-                    cout << "\nPin does not match please try again" << endl;
-                    cout << "\n-----------------------" << endl;
+                    cout << "------------------------------------" << endl;
+                    cout << "Pin does not match please try again" << endl;
+                    cout << "------------------------------------" << endl;
 #ifdef _WIN32
                     system("pause");
 #else
@@ -274,7 +262,7 @@ public:
                 AccountNumber = 0;
                 cout << "\nAccount does not exist under this Acoount Number" << endl;
                 file.close();
-                cout << "\n-----------------------" << endl;
+                cout << "---------------------------------------------------" << endl;
 #ifdef _WIN32
                 system("pause");
 #else
@@ -289,9 +277,9 @@ public:
 #else
             system("clear");
 #endif
-            cout << "-----------------------" << endl;
-            cout << "\nAlready An Account is Opened" << endl;
-            cout << "\n-----------------------" << endl;
+            cout << "-----------------------------" << endl;
+            cout << "Already An Account is Opened" << endl;
+            cout << "-----------------------------" << endl;
 #ifdef _WIN32
             system("pause");
 #else
@@ -314,7 +302,7 @@ public:
             string line;
             ifstream file("data.txt");
             bool found = false;
-            cout << "-----------------------" << endl;
+            cout << "\n--------------------------------------------------------" << endl;
 
             cout << "\nEnter your Account Number :- ";
             cin >> AccountNumber;
@@ -412,7 +400,7 @@ public:
 
                     cout << "\n ***** PIN Changed Succesfully *****" << endl;
                     cout << "\n Now try login into your existing account using new pin" << endl;
-                    cout << "\n-----------------------" << endl;
+                    cout << "\n--------------------------------------------------------" << endl;
 #ifdef _WIN32
                     system("pause");
 #else
@@ -429,9 +417,9 @@ public:
 #else
                     system("clear");
 #endif
-                    cout << "-----------------------" << endl;
-                    cout << "\nYour Answer is Incorrect" << endl;
-                    cout << "\n-----------------------" << endl;
+                    cout << "-------------------------" << endl;
+                    cout << "Your Answer is Incorrect" << endl;
+                    cout << "-------------------------" << endl;
 #ifdef _WIN32
                     system("pause");
 #else
@@ -444,7 +432,7 @@ public:
                 AccountNumber = 1;
                 cout << "\nAccount does not exist under this Account Number" << endl;
                 file.close();
-                cout << "\n-----------------------" << endl;
+                cout << "\n--------------------------------------------------------" << endl;
 #ifdef _WIN32
                 system("pause");
 #else
@@ -459,9 +447,9 @@ public:
 #else
             system("clear");
 #endif
-            cout << "-----------------------" << endl;
-            cout << "\nAlready An Account is Opened" << endl;
-            cout << "\n-----------------------" << endl;
+            cout << "-----------------------------" << endl;
+            cout << "Already An Account is Opened" << endl;
+            cout << "-----------------------------" << endl;
 #ifdef _WIN32
             system("pause");
 #else
@@ -480,7 +468,7 @@ public:
 #else
             system("clear");
 #endif
-            cout << "-----------------------" << endl;
+            cout << "-------------------------------------" << endl;
             cout << "\nEnter your existing pin :- ";
 
 #ifdef _WIN32
@@ -588,7 +576,7 @@ public:
                 }
 
                 cout << "\n ***** PIN Changed Succesfully *****" << endl;
-                cout << "\n-----------------------" << endl;
+                cout << "\n-------------------------------------" << endl;
 
 #ifdef _WIN32
                 system("pause");
@@ -605,9 +593,9 @@ public:
 #else
                 system("clear");
 #endif
-                cout << "-----------------------" << endl;
-                cout << "\nPin does not match please try again" << endl;
-                cout << "\n-----------------------" << endl;
+                cout << "------------------------------------" << endl;
+                cout << "Pin does not match please try again" << endl;
+                cout << "------------------------------------" << endl;
 #ifdef _WIN32
                 system("pause");
 #else
@@ -622,9 +610,9 @@ public:
 #else
             system("clear");
 #endif
-            cout << "-----------------------" << endl;
-            cout << "\nNo Account has been Logged in yet \nFirst login with an account to change pin" << endl;
-            cout << "\n-----------------------" << endl;
+            cout << "----------------------------------------" << endl;
+            cout << "No Account has been Logged in yet \nFirst login with an account to change pin" << endl;
+            cout << "----------------------------------------" << endl;
 #ifdef _WIN32
             system("pause");
 #else
@@ -660,7 +648,7 @@ public:
             system("clear");
 #endif
 
-            cout << "-----------------------" << endl;
+            cout << "-------------------------------------------------------------" << endl;
             cout << "\nHow much money do you want to add: ";
             int deposit;
             cin >> deposit;
@@ -683,7 +671,7 @@ public:
                     tempFile << AccountNumber << "^" << accountName << "%" << password << "*" << balance << "$" << line.substr(line.find("$") + 1) << endl;
 
                     cout << "\nRupees " << deposit << " has been added to your account" << endl;
-                    cout << "-----------------------" << endl;
+                    cout << "-------------------------------------------------------------" << endl;
                 }
                 else
                 {
@@ -714,9 +702,9 @@ public:
         }
         else
         {
-            cout << "-----------------------" << endl;
-            cout << "\nNo Account has been created yet. First, create one account." << endl;
-            cout << "-----------------------" << endl;
+            cout << "------------------------------------------------------------" << endl;
+            cout << "No Account has been created yet. First, create one account." << endl;
+            cout << "------------------------------------------------------------" << endl;
 #ifdef _WIN32
             system("pause");
 #else
@@ -736,9 +724,9 @@ public:
 #else
             system("clear");
 #endif
-            cout << "-----------------------" << endl;
-            cout << "\nNo Account has been created yet \n First Create one account" << endl;
-            cout << "\n-----------------------" << endl;
+            cout << "---------------------------------------------------------" << endl;
+            cout << "No Account has been created yet First Create one account" << endl;
+            cout << "---------------------------------------------------------" << endl;
 #ifdef _WIN32
             system("pause");
 #else
@@ -786,7 +774,7 @@ public:
 #else
                 system("clear");
 #endif
-                cout << "-----------------------" << endl;
+                cout << "---------------------------------------------------" << endl;
                 cout << "\nHow much money do you want to withdraw :- ";
                 cin >> withdraw;
                 cin.ignore();
@@ -850,7 +838,7 @@ public:
                 {
                     cout << "\n***** Not Enough money in account ***** \nDo you want to take Loan :)" << endl;
                 }
-                cout << "\n-----------------------" << endl;
+                cout << "\n---------------------------------------------------" << endl;
 #ifdef _WIN32
                 system("pause");
 #else
@@ -864,9 +852,9 @@ public:
 #else
                 system("clear");
 #endif
-                cout << "-----------------------" << endl;
-                cout << "\nPin does not match please try again" << endl;
-                cout << "\n-----------------------" << endl;
+                cout << "----------------------------------- " << endl;
+                cout << "Pin does not match please try again" << endl;
+                cout << "------------------------------------" << endl;
 #ifdef _WIN32
                 system("pause");
 #else
@@ -896,10 +884,14 @@ public:
 #else
             system("clear");
 #endif
+            cout << "-----------------------------------" << endl;
             cout << "Please Login with an account first" << endl;
-
-            cout << "\nPress Enter to continue...";
-            cin.ignore();
+            cout << "-----------------------------------" << endl;
+#ifdef _WIN32
+            system("pause");
+#else
+            system("read -p 'Press Enter to continue...' var");
+#endif
         }
         else
         {
@@ -910,11 +902,11 @@ public:
             system("clear");
 #endif
 
-            cout << "\n\n-----------------------\n\n";
-            cout << "\n\nAccount Number :- " << AccountNumber << endl;
+            cout << "---------------------------------------\n";
+            cout << "\nAccount Number :- " << AccountNumber << endl;
             cout << "\nName :- " << name << endl;
             cout << "\nBalance :- " << balance << endl;
-            cout << "\n-----------------------" << endl;
+            cout << "\n---------------------------------------" << endl;
 
 #ifdef _WIN32
             system("pause");
@@ -929,7 +921,7 @@ public:
         ifstream inputFile("data.txt");
         if (!inputFile)
         {
-            cout << "Error: Unable to open data.txt" << endl;
+            cout << "Data File not Present" << endl;
             return;
         }
 
@@ -973,8 +965,11 @@ public:
 #else
             system("clear");
 #endif
+            cout << "--------------------------------\n";
             cout << "Exporting Data File " << c << "%";
-            cout.flush();
+            cout << "\nPlease Wait...";
+            cout << "--------------------------------\n";
+
 #ifdef _WIN32
             Sleep(25);
 #else
@@ -1015,17 +1010,17 @@ public:
             system("clear");
 #endif
 
-            cout << "-----------------------" << endl;
+            cout << "--------------------------------" << endl;
             cout << " Welcome to Kunal's ATM Banking" << endl;
-            cout << "-----------------------" << endl;
+            cout << "--------------------------------" << endl;
 
-            cout << "\n-----------------------" << endl;
-            cout << "\nChoose option by pressing option number eg.1,2,3.." << endl;
+            cout << "\n---------------------------------------------------" << endl;
+            cout << "Choose option by pressing option number eg.1,2,3.." << endl;
 
             cout << "\n1. Export Program Data to Database.csv" << endl;
             cout << "2. Logout" << endl;
 
-            cout << "\n-----------------------" << endl;
+            cout << "---------------------------------------------------" << endl;
 
             cout << "\n>> ";
             cin >> a;
@@ -1055,12 +1050,12 @@ public:
             system("clear");
 #endif
 
-            cout << "-----------------------" << endl;
+            cout << "--------------------------------" << endl;
             cout << " Welcome to Kunal's ATM Banking" << endl;
-            cout << "-----------------------" << endl;
+            cout << "--------------------------------" << endl;
 
-            cout << "\n-----------------------" << endl;
-            cout << "\nChoose option by pressing option number eg.1,2,3.." << endl;
+            cout << "\n---------------------------------------------------" << endl;
+            cout << "Choose option by pressing option number eg.1,2,3.." << endl;
 
             cout << "\n1. Open new a Savings Account" << endl;
             cout << "2. Open a Existing Savings Account" << endl;
@@ -1070,7 +1065,7 @@ public:
             cout << "6. Add Money to Savings Account" << endl;
             cout << "7. Withdraw Money form Savings Account" << endl;
             cout << "8. Logout" << endl;
-            cout << "\n-----------------------" << endl;
+            cout << "---------------------------------------------------" << endl;
 
             cout << "\n>> ";
             cin >> u;
@@ -1134,14 +1129,15 @@ int main()
         system("clear");
 #endif
 
-        cout << "-----------------------" << endl;
+        cout << "--------------------------------" << endl;
         cout << " Welcome to Kunal's ATM Banking" << endl;
-        cout << "-----------------------" << endl;
-        cout << "\nSelect Mode by pressing option number eg.1,2,3.." << endl;
+        cout << "--------------------------------" << endl;
+        cout << "\n-------------------------------------------------" << endl;
+        cout << "Select Mode by pressing option number eg.1,2,3.." << endl;
         cout << "\n1. User Mode" << endl;
         cout << "2. Admin Mode" << endl;
         cout << "3. Exit" << endl;
-        cout << "\n-----------------------" << endl;
+        cout << "-------------------------------------------------" << endl;
 
         cout << "\n>> ";
         cin >> u;
@@ -1160,7 +1156,7 @@ int main()
             system("clear");
 #endif
 
-            cout << "\nEnter Admin Password : ";
+            cout << "\nEnter Admin Password (hint:admin) >> ";
 
             string pass;
             getline(cin, pass);
@@ -1177,8 +1173,8 @@ int main()
                 system("clear");
 #endif
                 cout << "-----------------------" << endl;
-                cout << "\nIncorrect Password" << endl;
-                cout << "\n-----------------------" << endl;
+                cout << "Incorrect Password" << endl;
+                cout << "-----------------------" << endl;
 #ifdef _WIN32
                 system("pause");
 #else
