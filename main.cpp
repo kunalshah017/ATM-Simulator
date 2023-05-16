@@ -1192,9 +1192,9 @@ int main()
 #else
             system("clear");
 #endif
-            cout << "-----------------------" << endl;
-            cout << "\nThank you for trying this program" << endl;
-            cout << "\n-----------------------" << endl;
+            cout << "----------------------------------" << endl;
+            cout << "Thank you for trying this program" << endl;
+            cout << "----------------------------------" << endl;
 #ifdef _WIN32
             system("pause");
 #else
