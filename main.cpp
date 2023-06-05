@@ -16,6 +16,15 @@
 
 using namespace std;
 
+void clear_screen() {
+#ifdef __linux__
+    cout << "\033[2J\033[1;1H";
+#endif
+#ifdef _WIN32
+    system("cls");
+#endif
+}
+
 class account
 {
 private:
@@ -35,11 +44,7 @@ public:
 
         if (name != "null")
         {
-#ifdef _WIN32
-            system("cls");
-#else
-            system("clear");
-#endif
+            clear_screen();
             cout << "-----------------------------------" << endl;
             cout << "\nAccount has Already been created" << endl;
             cout << "\n---------------------------------" << endl;
@@ -52,11 +57,7 @@ public:
 
         else
         {
-#ifdef _WIN32
-            system("cls");
-#else
-            system("clear");
-#endif
+            clear_screen();
 
             cout << "Enter your Full Name :- ";
             getline(cin, name);
@@ -128,11 +129,7 @@ public:
             outfile << AccountNumber << "^" << name << "%" << pin << "*" << balance << "$" << fpin << endl;
             outfile.close();
 
-#ifdef _WIN32
-            system("cls");
-#else
-            system("clear");
-#endif
+            clear_screen();
             cout << "-------------------------------------------------" << endl;
             cout << "***** Account has been created succesfully *****" << endl;
             cout << "-------------------------------------------------" << endl;
@@ -144,11 +141,7 @@ public:
             system("read -p 'Press Enter to continue...' var");
 #endif
 
-#ifdef _WIN32
-            system("cls");
-#else
-            system("clear");
-#endif
+            clear_screen();
             cout << "---------------------------------------\n";
             cout << "\nAccount Number :- " << AccountNumber << endl;
             cout << "\nName :- " << name << endl;
@@ -167,11 +160,7 @@ public:
     void ExistingAccount()
     {
 
-#ifdef _WIN32
-        system("cls");
-#else
-        system("clear");
-#endif
+        clear_screen();
         cout << "---------------------------------------------------" << endl;
         ifstream file("data.txt");
         string line, balanceline;
@@ -179,11 +168,7 @@ public:
 
         if (!file || !getline(file, line))
         {
-#ifdef _WIN32
-            system("cls");
-#else
-            system("clear");
-#endif
+            clear_screen();
             cout << "---------------------------------------------------------" << endl;
             cout << "No Account has been created yet First Create one account" << endl;
             cout << "---------------------------------------------------------" << endl;
@@ -242,11 +227,8 @@ public:
                 {
                     pin = "";
                     AccountNumber = 0;
-#ifdef _WIN32
-                    system("cls");
-#else
-                    system("clear");
-#endif
+
+                    clear_screen();
                     cout << "------------------------------------" << endl;
                     cout << "Pin does not match please try again" << endl;
                     cout << "------------------------------------" << endl;
@@ -272,11 +254,7 @@ public:
         }
         else if (name != "null")
         {
-#ifdef _WIN32
-            system("cls");
-#else
-            system("clear");
-#endif
+            clear_screen();
             cout << "-----------------------------" << endl;
             cout << "Already An Account is Opened" << endl;
             cout << "-----------------------------" << endl;
@@ -294,11 +272,7 @@ public:
     {
         if (name == "null")
         {
-#ifdef _WIN32
-            system("cls");
-#else
-            system("clear");
-#endif
+            clear_screen();
             string line;
             ifstream file("data.txt");
             bool found = false;
@@ -412,11 +386,7 @@ public:
                     fpin = "";
                     name = "null";
                     AccountNumber = 1;
-#ifdef _WIN32
-                    system("cls");
-#else
-                    system("clear");
-#endif
+                    clear_screen();
                     cout << "-------------------------" << endl;
                     cout << "Your Answer is Incorrect" << endl;
                     cout << "-------------------------" << endl;
@@ -442,11 +412,7 @@ public:
         }
         else if (name != "null")
         {
-#ifdef _WIN32
-            system("cls");
-#else
-            system("clear");
-#endif
+            clear_screen();
             cout << "-----------------------------" << endl;
             cout << "Already An Account is Opened" << endl;
             cout << "-----------------------------" << endl;
@@ -463,11 +429,7 @@ public:
         if (name != "null")
         {
             string extpin = "";
-#ifdef _WIN32
-            system("cls");
-#else
-            system("clear");
-#endif
+            clear_screen();
             cout << "-------------------------------------" << endl;
             cout << "\nEnter your existing pin :- ";
 
@@ -588,11 +550,7 @@ public:
             else
             {
                 extpin = "";
-#ifdef _WIN32
-                system("cls");
-#else
-                system("clear");
-#endif
+                clear_screen();
                 cout << "------------------------------------" << endl;
                 cout << "Pin does not match please try again" << endl;
                 cout << "------------------------------------" << endl;
@@ -605,11 +563,7 @@ public:
         }
         else
         {
-#ifdef _WIN32
-            system("cls");
-#else
-            system("clear");
-#endif
+            clear_screen();
             cout << "----------------------------------------" << endl;
             cout << "No Account has been Logged in yet \nFirst login with an account to change pin" << endl;
             cout << "----------------------------------------" << endl;
@@ -642,11 +596,7 @@ public:
             }
 
             string line;
-#ifdef _WIN32
-            system("cls");
-#else
-            system("clear");
-#endif
+            clear_screen();
 
             cout << "-------------------------------------------------------------" << endl;
             cout << "\nHow much money do you want to add: ";
@@ -719,11 +669,7 @@ public:
 
         if (name == "null")
         {
-#ifdef _WIN32
-            system("cls");
-#else
-            system("clear");
-#endif
+            clear_screen();
             cout << "---------------------------------------------------------" << endl;
             cout << "No Account has been created yet First Create one account" << endl;
             cout << "---------------------------------------------------------" << endl;
@@ -736,11 +682,7 @@ public:
 
         else
         {
-#ifdef _WIN32
-            system("cls");
-#else
-            system("clear");
-#endif
+            clear_screen();
             cout << "-----------------------" << endl;
             cout << "\n Enter your pin :- ";
 
@@ -769,11 +711,7 @@ public:
 
             if (name != "null" && extpin == pin)
             {
-#ifdef _WIN32
-                system("cls");
-#else
-                system("clear");
-#endif
+                clear_screen();
                 cout << "---------------------------------------------------" << endl;
                 cout << "\nHow much money do you want to withdraw :- ";
                 cin >> withdraw;
@@ -847,11 +785,7 @@ public:
             }
             if (name != "null" && extpin != pin)
             {
-#ifdef _WIN32
-                system("cls");
-#else
-                system("clear");
-#endif
+                clear_screen();
                 cout << "----------------------------------- " << endl;
                 cout << "Pin does not match please try again" << endl;
                 cout << "------------------------------------" << endl;
@@ -879,11 +813,7 @@ public:
 
         if (name == "null")
         {
-#ifdef _WIN32
-            system("cls");
-#else
-            system("clear");
-#endif
+            clear_screen();
             cout << "-----------------------------------" << endl;
             cout << "Please Login with an account first" << endl;
             cout << "-----------------------------------" << endl;
@@ -896,11 +826,7 @@ public:
         else
         {
 
-#ifdef _WIN32
-            system("cls");
-#else
-            system("clear");
-#endif
+            clear_screen();
 
             cout << "---------------------------------------\n";
             cout << "\nAccount Number :- " << AccountNumber << endl;
@@ -960,11 +886,7 @@ public:
 
         for (int c = 0; c <= 100; c++)
         {
-#ifdef _WIN32
-            system("cls");
-#else
-            system("clear");
-#endif
+            clear_screen();
             cout << "--------------------------------\n";
             cout << "Exporting Data File " << c << "%";
             cout << "\nPlease Wait...";
@@ -977,11 +899,7 @@ public:
 #endif
         }
 
-#ifdef _WIN32
-        system("cls");
-#else
-        system("clear");
-#endif
+        clear_screen();
 
         cout << "-----------------------\n";
         cout << "\nData Exported Successfully" << endl;
@@ -1004,11 +922,7 @@ public:
         int a;
         do
         {
-#ifdef _WIN32
-            system("cls");
-#else
-            system("clear");
-#endif
+            clear_screen();
 
             cout << "--------------------------------" << endl;
             cout << " Welcome to Kunal's ATM Banking" << endl;
@@ -1044,11 +958,7 @@ public:
 
         do
         {
-#ifdef _WIN32
-            system("cls");
-#else
-            system("clear");
-#endif
+            clear_screen();
 
             cout << "--------------------------------" << endl;
             cout << " Welcome to Kunal's ATM Banking" << endl;
@@ -1123,11 +1033,7 @@ int main()
 
     do
     {
-#ifdef _WIN32
-        system("cls");
-#else
-        system("clear");
-#endif
+        clear_screen();
 
         cout << "--------------------------------" << endl;
         cout << " Welcome to Kunal's ATM Banking" << endl;
@@ -1150,11 +1056,7 @@ int main()
 
         if (u == 2)
         {
-#ifdef _WIN32
-            system("cls");
-#else
-            system("clear");
-#endif
+            clear_screen();
 
             cout << "\nEnter Admin Password (hint:admin) >> ";
 
@@ -1167,11 +1069,7 @@ int main()
             }
             else
             {
-#ifdef _WIN32
-                system("cls");
-#else
-                system("clear");
-#endif
+                clear_screen();
                 cout << "-----------------------" << endl;
                 cout << "Incorrect Password" << endl;
                 cout << "-----------------------" << endl;
@@ -1187,11 +1085,7 @@ int main()
         {
 
 // BYE BYE MESSAGE
-#ifdef _WIN32
-            system("cls");
-#else
-            system("clear");
-#endif
+            clear_screen();
             cout << "----------------------------------" << endl;
             cout << "Thank you for trying this program" << endl;
             cout << "----------------------------------" << endl;
