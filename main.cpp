@@ -2,6 +2,7 @@
 #include <string>
 #include <cstring>
 #include <cstdio>
+#include <functional>
 #include <cstdlib>
 #include <ctime>
 #include <random>
@@ -18,11 +19,21 @@ using namespace std;
 
 void clear_screen() {
 #ifdef __linux__
-    cout << "\033[2J\033[1;1H";
+    cout << "\033[2J\033[1;1H" << flush;
 #endif
 #ifdef _WIN32
     system("cls");
 #endif
+}
+
+void print_pause() {
+    cout << "Press Enter to continue..." << endl;
+    cin.get();
+}
+
+void print_message_with_bars(std::string message) {
+    std::string bars = std::string(message.length() + 2, '-'); // + 2 for the extra bit on the side
+    std::cout << bars << "\n " << message << "\n" << bars;
 }
 
 class account
@@ -45,14 +56,8 @@ public:
         if (name != "null")
         {
             clear_screen();
-            cout << "-----------------------------------" << endl;
-            cout << "\nAccount has Already been created" << endl;
-            cout << "\n---------------------------------" << endl;
-#ifdef _WIN32
-            system("pause");
-#else
-            system("read -p 'Press Enter to continue...' var");
-#endif
+            print_message_with_bars("Account has already been created");
+            print_pause();
         }
 
         else
@@ -130,16 +135,10 @@ public:
             outfile.close();
 
             clear_screen();
-            cout << "-------------------------------------------------" << endl;
-            cout << "***** Account has been created succesfully *****" << endl;
-            cout << "-------------------------------------------------" << endl;
+            print_message_with_bars("***** Account has been created succesfully *****");
             cout << "\n\nPlease Continue to View your Account Details" << endl;
 
-#ifdef _WIN32
-            system("pause");
-#else
-            system("read -p 'Press Enter to continue...' var");
-#endif
+            print_pause();
 
             clear_screen();
             cout << "---------------------------------------\n";
@@ -147,11 +146,7 @@ public:
             cout << "\nName :- " << name << endl;
             cout << "\nBalance :- " << balance << endl;
             cout << "\n---------------------------------------" << endl;
-#ifdef _WIN32
-            system("pause");
-#else
-            system("read -p 'Press Enter to continue...' var");
-#endif
+            print_pause();
         }
     }
 
@@ -169,14 +164,8 @@ public:
         if (!file || !getline(file, line))
         {
             clear_screen();
-            cout << "---------------------------------------------------------" << endl;
-            cout << "No Account has been created yet First Create one account" << endl;
-            cout << "---------------------------------------------------------" << endl;
-#ifdef _WIN32
-            system("pause");
-#else
-            system("read -p 'Press Enter to continue...' var");
-#endif
+            print_message_with_bars("No account has been created yet; first create an account");
+            print_pause();
         }
         else if (name == "null")
         {
@@ -216,12 +205,7 @@ public:
                     cout << "\nWelcome " << name << "!" << endl;
                     file.close();
                     cout << "---------------------------------------------------" << endl;
-
-#ifdef _WIN32
-                    system("pause");
-#else
-                    system("read -p 'Press Enter to continue...' var");
-#endif
+                    print_pause();
                 }
                 else
                 {
@@ -229,14 +213,8 @@ public:
                     AccountNumber = 0;
 
                     clear_screen();
-                    cout << "------------------------------------" << endl;
-                    cout << "Pin does not match please try again" << endl;
-                    cout << "------------------------------------" << endl;
-#ifdef _WIN32
-                    system("pause");
-#else
-                    system("read -p 'Press Enter to continue...' var");
-#endif
+                    print_message_with_bars("PIN does not match, please try again");
+                    print_pause();
                 }
             }
             else if (!found)
@@ -245,24 +223,14 @@ public:
                 cout << "\nAccount does not exist under this Acoount Number" << endl;
                 file.close();
                 cout << "---------------------------------------------------" << endl;
-#ifdef _WIN32
-                system("pause");
-#else
-                system("read -p 'Press Enter to continue...' var");
-#endif
+                print_pause();
             }
         }
         else if (name != "null")
         {
             clear_screen();
-            cout << "-----------------------------" << endl;
-            cout << "Already An Account is Opened" << endl;
-            cout << "-----------------------------" << endl;
-#ifdef _WIN32
-            system("pause");
-#else
-            system("read -p 'Press Enter to continue...' var");
-#endif
+            print_message_with_bars("An account is already open");
+            print_pause();
         }
     }
 
@@ -375,11 +343,7 @@ public:
                     cout << "\n ***** PIN Changed Succesfully *****" << endl;
                     cout << "\n Now try login into your existing account using new pin" << endl;
                     cout << "\n--------------------------------------------------------" << endl;
-#ifdef _WIN32
-                    system("pause");
-#else
-                    system("read -p 'Press Enter to continue...' var");
-#endif
+                    print_pause();
                 }
                 else
                 {
@@ -387,14 +351,8 @@ public:
                     name = "null";
                     AccountNumber = 1;
                     clear_screen();
-                    cout << "-------------------------" << endl;
-                    cout << "Your Answer is Incorrect" << endl;
-                    cout << "-------------------------" << endl;
-#ifdef _WIN32
-                    system("pause");
-#else
-                    system("read -p 'Press Enter to continue...' var");
-#endif
+                    print_message_with_bars("Your answer is incorrect");
+                    print_pause();
                 }
             }
             else if (!found)
@@ -403,24 +361,14 @@ public:
                 cout << "\nAccount does not exist under this Account Number" << endl;
                 file.close();
                 cout << "\n--------------------------------------------------------" << endl;
-#ifdef _WIN32
-                system("pause");
-#else
-                system("read -p 'Press Enter to continue...' var");
-#endif
+                print_pause();
             }
         }
         else if (name != "null")
         {
             clear_screen();
-            cout << "-----------------------------" << endl;
-            cout << "Already An Account is Opened" << endl;
-            cout << "-----------------------------" << endl;
-#ifdef _WIN32
-            system("pause");
-#else
-            system("read -p 'Press Enter to continue...' var");
-#endif
+            print_message_with_bars("An account is already open");
+            print_pause();
         }
     }
 
@@ -540,38 +488,22 @@ public:
                 cout << "\n ***** PIN Changed Succesfully *****" << endl;
                 cout << "\n-------------------------------------" << endl;
 
-#ifdef _WIN32
-                system("pause");
-#else
-                system("read -p 'Press Enter to continue...' var");
-#endif
+                print_pause();
                 extpin = "";
             }
             else
             {
                 extpin = "";
                 clear_screen();
-                cout << "------------------------------------" << endl;
-                cout << "Pin does not match please try again" << endl;
-                cout << "------------------------------------" << endl;
-#ifdef _WIN32
-                system("pause");
-#else
-                system("read -p 'Press Enter to continue...' var");
-#endif
+                
+                print_pause();
             }
         }
         else
         {
             clear_screen();
-            cout << "----------------------------------------" << endl;
-            cout << "No Account has been Logged in yet \nFirst login with an account to change pin" << endl;
-            cout << "----------------------------------------" << endl;
-#ifdef _WIN32
-            system("pause");
-#else
-            system("read -p 'Press Enter to continue...' var");
-#endif
+            print_message_with_bars("No account has been logged into yet \nFirst login with an account to change its pin");
+            print_pause();
         }
     }
 
@@ -643,23 +575,12 @@ public:
             }
 
             // Pause the program
-#ifdef _WIN32
-            system("pause");
-#else
-            cout << "Press Enter to continue...";
-            cin.ignore();
-#endif
+            print_pause();
         }
         else
         {
-            cout << "------------------------------------------------------------" << endl;
-            cout << "No Account has been created yet. First, create one account." << endl;
-            cout << "------------------------------------------------------------" << endl;
-#ifdef _WIN32
-            system("pause");
-#else
-            cin.ignore();
-#endif
+            print_message_with_bars("No account has been created yet. First, create an account.");
+            print_pause();
         }
     }
 
@@ -670,14 +591,8 @@ public:
         if (name == "null")
         {
             clear_screen();
-            cout << "---------------------------------------------------------" << endl;
-            cout << "No Account has been created yet First Create one account" << endl;
-            cout << "---------------------------------------------------------" << endl;
-#ifdef _WIN32
-            system("pause");
-#else
-            system("read -p 'Press Enter to continue...' var");
-#endif
+            print_message_with_bars("No account has been created yet. First, create an account.");
+            print_pause();
         }
 
         else
@@ -777,23 +692,13 @@ public:
                     cout << "\n***** Not Enough money in account ***** \nDo you want to take Loan :)" << endl;
                 }
                 cout << "\n---------------------------------------------------" << endl;
-#ifdef _WIN32
-                system("pause");
-#else
-                system("read -p 'Press Enter to continue...' var");
-#endif
+                print_pause();
             }
             if (name != "null" && extpin != pin)
             {
                 clear_screen();
-                cout << "----------------------------------- " << endl;
-                cout << "Pin does not match please try again" << endl;
-                cout << "------------------------------------" << endl;
-#ifdef _WIN32
-                system("pause");
-#else
-                system("read -p 'Press Enter to continue...' var");
-#endif
+                print_message_with_bars("PIN does not match, please try again");
+                print_pause();
             }
         }
     }
@@ -814,14 +719,8 @@ public:
         if (name == "null")
         {
             clear_screen();
-            cout << "-----------------------------------" << endl;
-            cout << "Please Login with an account first" << endl;
-            cout << "-----------------------------------" << endl;
-#ifdef _WIN32
-            system("pause");
-#else
-            system("read -p 'Press Enter to continue...' var");
-#endif
+            print_message_with_bars("Please login with an account first");
+            print_pause();
         }
         else
         {
@@ -834,11 +733,7 @@ public:
             cout << "\nBalance :- " << balance << endl;
             cout << "\n---------------------------------------" << endl;
 
-#ifdef _WIN32
-            system("pause");
-#else
-            system("read -p 'Press Enter to continue...' var");
-#endif
+            print_pause();
         }
     }
 
@@ -901,15 +796,9 @@ public:
 
         clear_screen();
 
-        cout << "-----------------------\n";
-        cout << "\nData Exported Successfully" << endl;
-        cout << "\n-----------------------" << endl;
+        print_message_with_bars("Data exported successfully!");
 
-#ifdef _WIN32
-        system("pause");
-#else
-        system("read -p 'Press Enter to continue...' var");
-#endif
+        print_pause();
     }
 };
 
@@ -924,11 +813,9 @@ public:
         {
             clear_screen();
 
-            cout << "--------------------------------" << endl;
-            cout << " Welcome to Kunal's ATM Banking" << endl;
-            cout << "--------------------------------" << endl;
+            print_message_with_bars("Welcome to Kunal's ATM Banking");
 
-            cout << "\n---------------------------------------------------" << endl;
+            cout << "\n\n---------------------------------------------------" << endl;
             cout << "Choose option by pressing option number eg.1,2,3.." << endl;
 
             cout << "\n1. Export Program Data to Database.csv" << endl;
@@ -960,9 +847,7 @@ public:
         {
             clear_screen();
 
-            cout << "--------------------------------" << endl;
-            cout << " Welcome to Kunal's ATM Banking" << endl;
-            cout << "--------------------------------" << endl;
+            print_message_with_bars("Welcome to Kunal's ATM Banking");
 
             cout << "\n---------------------------------------------------" << endl;
             cout << "Choose option by pressing option number eg.1,2,3.." << endl;
@@ -981,44 +866,20 @@ public:
             cin >> u;
             cin.ignore();
 
-            if (u == 1)
-            {
-                obj.CreateAccount();
-            }
+            std::function<void()> methods[] = {
+                nullptr,
+                [&]() { obj.CreateAccount(); },
+                [&]() { obj.ExistingAccount(); },
+                [&]() { obj.AccountDetails(); },
+                [&]() { obj.ForgotPin(); },
+                [&]() { obj.ChangePin(); },
+                [&]() { obj.AddMoney(); },
+                [&]() { obj.WithdrawMoney(); },
+                [&]() { obj.Logout(); }
+            };
 
-            if (u == 2)
-            {
-                obj.ExistingAccount();
-            }
-
-            if (u == 3)
-            {
-                obj.AccountDetails();
-            }
-
-            if (u == 4)
-            {
-                obj.ForgotPin();
-            }
-
-            if (u == 5)
-            {
-                obj.ChangePin();
-            }
-
-            if (u == 6)
-            {
-                obj.AddMoney();
-            }
-
-            if (u == 7)
-            {
-                obj.WithdrawMoney();
-            }
-
-            if (u == 8)
-            {
-                obj.Logout();
+            if (u >= 1 && u <= 8) {
+                methods[u]();
             }
         } while (u != 8);
     }
@@ -1035,9 +896,7 @@ int main()
     {
         clear_screen();
 
-        cout << "--------------------------------" << endl;
-        cout << " Welcome to Kunal's ATM Banking" << endl;
-        cout << "--------------------------------" << endl;
+        print_message_with_bars("Welcome to Kunal's ATM Banking");
         cout << "\n-------------------------------------------------" << endl;
         cout << "Select Mode by pressing option number eg.1,2,3.." << endl;
         cout << "\n1. User Mode" << endl;
@@ -1070,14 +929,8 @@ int main()
             else
             {
                 clear_screen();
-                cout << "-----------------------" << endl;
-                cout << "Incorrect Password" << endl;
-                cout << "-----------------------" << endl;
-#ifdef _WIN32
-                system("pause");
-#else
-                system("read -p 'Press Enter to continue...' var");
-#endif
+                print_message_with_bars("Incorrect password");
+                print_pause();
             }
         }
 
@@ -1086,14 +939,8 @@ int main()
 
 // BYE BYE MESSAGE
             clear_screen();
-            cout << "----------------------------------" << endl;
-            cout << "Thank you for trying this program" << endl;
-            cout << "----------------------------------" << endl;
-#ifdef _WIN32
-            system("pause");
-#else
-            system("read -p 'Press Enter to continue...' var");
-#endif
+            print_message_with_bars("Thank you for using this program");
+            print_pause();
         }
 
     } while (u != 3);
