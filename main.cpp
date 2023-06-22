@@ -781,6 +781,16 @@ public:
 
     void Logout()
     {
+        clear_screen();
+        cout << "-----------------------------------" << endl;
+        cout << "Logging out...\nPlease Wait" << endl;
+        loadingAnimation(1);
+        cout << "-----------------------------------" << endl;
+        clear_screen();
+        cout << "-----------------------------------" << endl;
+        cout << "Logged out successfully" << endl;
+        cout << "-----------------------------------" << endl;
+        pause_screen();
         name = "null";
         pin = "";
         balance = 0;
@@ -1139,7 +1149,7 @@ public:
             cout << "5. Change Pin of your Savings Account" << endl;
             cout << "6. Add Money to Savings Account" << endl;
             cout << "7. Withdraw Money form Savings Account" << endl;
-            cout << "8. Transfer Money to another Account" << endl;
+            cout << "8. Transfer Money to Someone" << endl;
             cout << "9. Logout" << endl;
             cout << "---------------------------------------------------" << endl;
 
