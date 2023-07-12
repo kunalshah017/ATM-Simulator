@@ -60,6 +60,68 @@ void loadingAnimation(int durationSeconds)
     std::cout << std::endl;
 }
 
+string encrypt(string statement)
+{
+
+    int length = statement.length();
+
+    for (int i = 0; i < length; i++)
+    {
+        if (statement[i] == 'z')
+        {
+            statement[i] = statement[i] - 26;
+        }
+        if (statement[i] == ' ')
+        {
+            statement[i] = '.';
+        }
+        else
+        {
+            statement[i] = statement[i] + 1;
+        }
+    }
+
+    return statement;
+}
+
+string decrypt(string statement)
+{
+
+    int length = statement.length();
+
+    for (int i = 0; i < length; i++)
+    {
+        if (statement[i] == 'a')
+        {
+            statement[i] = statement[i] + 26;
+        }
+        if (statement[i] == '.')
+        {
+            statement[i] = ' ';
+        }
+        else
+        {
+            statement[i] = statement[i] - 1;
+        }
+    }
+
+    return statement;
+}
+
+int encryptint(int input)
+{
+    input = input + 171717;
+    input = input * 3;
+    return input;
+}
+
+int decryptint(int input)
+{
+    input = input / 3;
+    input = input - 171717;
+    return input;
+}
+
 class account
 {
 private:
@@ -67,7 +129,7 @@ private:
     int balance = 0, withdraw, deposit;
     string pin = "", fpin = "";
     char ch;
-    long int random = 9999999, AccountNumber = 1;
+    long int random = 999999, AccountNumber = 1;
 
 public:
     // New Account-------------------------------------------------------------------------
@@ -125,15 +187,15 @@ public:
             srand(time(NULL));
             AccountNumber = rand() % random + 1000000;
 #else
-            srand(time(NULL));
-            AccountNumber = rand() % random + 1;
-            if (AccountNumber < 1000000)
+            do
             {
                 srand(time(NULL));
                 AccountNumber = rand() % random + 1;
-            }
+            } while (AccountNumber < 100000);
 
 #endif
+
+            AccountNumber = encryptint(AccountNumber);
 
             do
             {
@@ -146,20 +208,33 @@ public:
                         found = true;
                         break;
                     }
+                    else
+                    {
+                        found = false;
+                    }
                 }
 
                 if (found)
                 {
+                    AccountNumber = decryptint(AccountNumber);
 #ifdef _WIN32
                     srand(time(NULL));
                     AccountNumber = rand() % random + 1000000;
 #else
-                    srand(time(NULL));
-                    AccountNumber = rand() % random + 1;
-
+                    do
+                    {
+                        srand(time(NULL));
+                        AccountNumber = rand() % random + 1;
+                    } while (AccountNumber < 1000000);
 #endif
                 }
             } while (found);
+
+            AccountNumber = encryptint(AccountNumber);
+            balance = encryptint(balance);
+            name = encrypt(name);
+            pin = encrypt(pin);
+            fpin = encrypt(fpin);
 
             ofstream outfile("data.txt", ios::app);
             outfile << AccountNumber << "^" << name << "%" << pin << "*" << balance << "$" << fpin << endl;
@@ -172,6 +247,12 @@ public:
             cout << "\n\nPlease Continue to View your Account Details" << endl;
 
             pause_screen();
+
+            AccountNumber = decryptint(AccountNumber);
+            balance = decryptint(balance);
+            name = decrypt(name);
+            pin = decrypt(pin);
+            fpin = decrypt(fpin);
 
             clear_screen();
             cout << "---------------------------------------\n";
@@ -202,13 +283,15 @@ public:
             cout << "---------------------------------------------------------" << endl;
             pause_screen();
         }
-        else if (name == "null")
+        else if (AccountNumber == 1)
         {
 
             cout << "\nEnter your Account Number :- ";
-            cin >> AccountNumber;
+            int tempAccountNumber;
+            cin >> tempAccountNumber;
             cin.ignore();
-            string str_AccountNumber = to_string(AccountNumber);
+            tempAccountNumber = encryptint(tempAccountNumber);
+            string str_AccountNumber = to_string(tempAccountNumber);
             file.seekg(0, ios::beg);
 
             while (getline(file, line))
@@ -216,9 +299,12 @@ public:
 
                 string file_AccountNumber = line.substr(0, line.find("^"));
 
+                int int_file_AccountNumber = stoi(file_AccountNumber);
+
                 if (str_AccountNumber == file_AccountNumber)
                 {
                     found = true;
+
                     break;
                 }
             }
@@ -228,6 +314,7 @@ public:
                 cout << "\nEnter your Account pin :- ";
                 string temppin;
                 getline(cin, temppin);
+                temppin = encrypt(temppin);
                 pin = line.substr(line.find("%") + 1, line.find("*") - line.find("%") - 1);
 
                 if (temppin == pin)
@@ -235,8 +322,13 @@ public:
                     string tempbalance;
                     tempbalance = line.substr(line.find("*") + 1, line.find("$") - line.find("*") - 1);
                     balance = stoi(tempbalance);
+                    balance = decryptint(balance);
                     name = line.substr(line.find("^") + 1, line.find("%") - line.find("^") - 1);
+                    name = decrypt(name);
                     fpin = line.substr(line.find("$") + 1);
+                    fpin = decrypt(fpin);
+                    AccountNumber = decryptint(AccountNumber);
+                    pin = decrypt(pin);
                     cout << "\nWelcome " << name << "!" << endl;
                     file.close();
                     cout << "---------------------------------------------------" << endl;
@@ -257,14 +349,14 @@ public:
             }
             else if (!found)
             {
-                AccountNumber = 0;
+                AccountNumber = 1;
                 cout << "\nAccount does not exist under this Acoount Number" << endl;
                 file.close();
                 cout << "---------------------------------------------------" << endl;
                 pause_screen();
             }
         }
-        else if (name != "null")
+        else if (AccountNumber != 1)
         {
             clear_screen();
             cout << "-----------------------------" << endl;
@@ -278,7 +370,7 @@ public:
 
     void ForgotPin()
     {
-        if (name == "null")
+        if (AccountNumber == 1)
         {
             clear_screen();
             string line;
@@ -289,6 +381,7 @@ public:
             cout << "\nEnter your Account Number :- ";
             cin >> AccountNumber;
             cin.ignore();
+            AccountNumber = encryptint(AccountNumber);
             string str_AccountNumber = to_string(AccountNumber);
             file.seekg(0, ios::beg);
 
@@ -301,6 +394,7 @@ public:
                 {
                     found = true;
                     name = line.substr(line.find("^") + 1, line.find("%") - line.find("^") - 1);
+                    name = decrypt(name);
                     break;
                 }
             }
@@ -310,8 +404,11 @@ public:
                 cout << "\nGive Answer to your forgot pin question \nName of your First School ? :- ";
                 string tempfpin;
                 getline(cin, tempfpin);
+                tempfpin = encrypt(tempfpin);
 
                 fpin = line.substr(line.find("$") + 1);
+                string temppin = line.substr(line.find("%") + 1, line.find("*") - line.find("%") - 1);
+                temppin = decrypt(temppin);
 
                 if (tempfpin == fpin)
                 {
@@ -322,8 +419,10 @@ public:
 
                     if (pin == "")
                     {
-                        pin = fpin;
+                        pin = temppin;
                     }
+
+                    pin = encrypt(pin);
 
                     ifstream inputFile("data.txt");
                     if (!inputFile)
@@ -356,6 +455,7 @@ public:
                             password = pin;
 
                             tempFile << AccountNumber << "^" << accountName << "%" << password << "*" << balance << "$" << line.substr(line.find("$") + 1) << endl;
+                            pin = decrypt(pin);
                         }
                         else
                         {
@@ -422,7 +522,7 @@ public:
 
     void ChangePin()
     {
-        if (name != "null")
+        if (AccountNumber != 1)
         {
             string extpin = "";
             clear_screen();
@@ -482,6 +582,8 @@ public:
                     pin = extpin;
                 }
 
+                pin = encrypt(pin);
+
                 ifstream inputFile("data.txt");
                 if (!inputFile)
                 {
@@ -532,6 +634,7 @@ public:
                     cout << "Error: Unable to rename temp.txt" << endl;
                     return;
                 }
+                pin = decrypt(pin);
 
                 cout << "\n ***** PIN Changed Succesfully *****" << endl;
                 cout << "\n-------------------------------------" << endl;
@@ -561,7 +664,7 @@ public:
 
     void AddMoney()
     {
-        if (name != "null")
+        if (AccountNumber != 1)
 
         {
             ifstream inputFile("data.txt");
@@ -592,6 +695,7 @@ public:
             {
                 string accountNumStr = line.substr(0, line.find("^"));
                 int accountNum = stoi(accountNumStr);
+                accountNum = decryptint(accountNum);
 
                 if (AccountNumber == accountNum)
                 {
@@ -599,11 +703,17 @@ public:
                     string password = line.substr(line.find("%") + 1, line.find("*") - line.find("%") - 1);
                     string balanceStr = line.substr(line.find("*") + 1, line.find("$") - line.find("*") - 1);
                     balance = stoi(balanceStr);
+                    balance = decryptint(balance);
 
                     balance += deposit;
 
+                    balance = encryptint(balance);
+                    AccountNumber = encryptint(AccountNumber);
+
                     tempFile << AccountNumber << "^" << accountName << "%" << password << "*" << balance << "$" << line.substr(line.find("$") + 1) << endl;
 
+                    balance = decryptint(balance);
+                    AccountNumber = decryptint(AccountNumber);
                     cout << "\nRupees " << deposit << " has been added to your account" << endl;
                     cout << "-------------------------------------------------------------" << endl;
                 }
@@ -652,7 +762,7 @@ public:
     {
         string extpin = "";
 
-        if (name == "null")
+        if (AccountNumber == 1)
         {
             clear_screen();
             cout << "---------------------------------------------------------" << endl;
@@ -690,7 +800,7 @@ public:
 
             cout << "\n-----------------------" << endl;
 
-            if (name != "null" && extpin == pin)
+            if (AccountNumber != 1 && extpin == pin)
             {
                 clear_screen();
                 cout << "---------------------------------------------------" << endl;
@@ -721,6 +831,7 @@ public:
                     {
                         string accountNumStr = line.substr(0, line.find("^"));
                         int accountNum = stoi(accountNumStr);
+                        accountNum = decryptint(accountNum);
 
                         if (AccountNumber == accountNum)
                         {
@@ -728,11 +839,16 @@ public:
                             string password = line.substr(line.find("%") + 1, line.find("*") - line.find("%") - 1);
                             string balanceStr = line.substr(line.find("*") + 1, line.find("$") - line.find("*") - 1);
                             balance = stoi(balanceStr);
+                            balance = decryptint(balance);
+                            AccountNumber = encryptint(AccountNumber);
 
                             balance -= withdraw;
+                            balance = encryptint(balance);
 
                             tempFile << AccountNumber << "^" << accountName << "%" << password << "*" << balance << "$" << line.substr(line.find("$") + 1) << endl;
 
+                            balance = decryptint(balance);
+                            AccountNumber = decryptint(AccountNumber);
                             cout << "\nRupees " << withdraw << " has been withdrawn from your account " << endl;
                         }
                         else
@@ -855,6 +971,16 @@ public:
             exportbalance = line.substr(line.find("*") + 1, line.find("$") - line.find("*") - 1);
             exportfpin = line.substr(line.find("$") + 1);
 
+            int exportAccountNumberint = stoi(exportAccountNumber);
+            exportAccountNumberint = decryptint(exportAccountNumberint);
+            exportAccountNumber = to_string(exportAccountNumberint);
+            exportname = decrypt(exportname);
+            exportpin = decrypt(exportpin);
+            int exportbalanceint = stoi(exportbalance);
+            exportbalanceint = decryptint(exportbalanceint);
+            exportbalance = to_string(exportbalanceint);
+            exportfpin = decrypt(exportfpin);
+
             exportFile << exportAccountNumber << "," << exportname << "," << exportpin << "," << exportbalance << "," << exportfpin << endl;
 
             exportAccountNumber = "";
@@ -928,23 +1054,27 @@ public:
             string line;
             string transferName = "";
             bool found = false;
+            transferAccountNumber = encryptint(transferAccountNumber);
 
             string str_transferAccountNumber = to_string(transferAccountNumber);
             inputFile.seekg(0, ios::beg);
             while (getline(inputFile, line))
             {
-                string AccountNumber = line.substr(0, line.find("^"));
-                if (AccountNumber == str_transferAccountNumber)
+                string findAccountNumber = line.substr(0, line.find("^"));
+                if (findAccountNumber == str_transferAccountNumber)
                 {
                     transferName = line.substr(line.find("^") + 1, line.find("%") - line.find("^") - 1);
+                    transferName = decrypt(transferName);
                     transferBalance = stoi(line.substr(line.find("*") + 1, line.find("$") - line.find("*") - 1));
+                    transferBalance = decryptint(transferBalance);
+                    transferAccountNumber = decryptint(transferAccountNumber);
                     found = true;
                     break;
                 }
             }
 
             cout << "Finding Account Number... \nPlease Wait." << endl;
-            loadingAnimation(2);
+            loadingAnimation(1);
 
             if (!found)
             {
@@ -997,7 +1127,11 @@ public:
                     }
 
                     string line;
+                    transferAccountNumber = encryptint(transferAccountNumber);
+                    transferBalance = encryptint(transferBalance);
+                    transferName = encrypt(transferName);
                     string str_transferAccountNumber = to_string(transferAccountNumber);
+
                     inputFile.seekg(0, ios::beg);
                     while (getline(inputFile, line))
                     {
@@ -1041,7 +1175,9 @@ public:
                         inputfile.close();
                         return;
                     }
-
+                    name = encrypt(name);
+                    AccountNumber = encryptint(AccountNumber);
+                    balance = encryptint(balance);
                     inputfile.seekg(0, ios::beg);
                     while (getline(inputfile, line))
                     {
@@ -1074,6 +1210,10 @@ public:
 
                     cout << "Transferring Money... \nPlease Wait." << endl;
                     loadingAnimation(2);
+
+                    AccountNumber = decryptint(AccountNumber);
+                    balance = decryptint(balance);
+                    name = decrypt(name);
 
                     clear_screen();
                     cout << "\n----------------------------------------------------" << endl;
